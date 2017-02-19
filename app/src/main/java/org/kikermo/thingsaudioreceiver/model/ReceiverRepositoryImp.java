@@ -12,17 +12,18 @@ import org.kikermo.thingsaudioreceiver.model.data.Track;
 import org.kikermo.thingsaudioreceiver.util.Utils;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static org.kikermo.thingsaudioreceiver.util.Constants.BA_PLAYBACKEVENT;
 import static org.kikermo.thingsaudioreceiver.util.Constants.BK_PLAYBACKEVENT;
 
 
-public class ReceiberRepositoryImp implements ReceiverRepository {
+public class ReceiverRepositoryImp implements ReceiverRepository {
     //TODO evalueate potential context leak
     private Observable<PlaybackEvent> playbackEventObservable;
 
-    public ReceiberRepositoryImp(Context context) {
+    public ReceiverRepositoryImp(Context context) {
         this.playbackEventObservable = RxBroadcastReceiver.create(context, new IntentFilter(BA_PLAYBACKEVENT))
                 .subscribeOn(Schedulers.io())
                 .filter(Utils::notNull)
@@ -34,20 +35,23 @@ public class ReceiberRepositoryImp implements ReceiverRepository {
     public Observable<Track> subscribeToTrackUpdates() {
         return playbackEventObservable
                 .filter(playbackEvent -> playbackEvent instanceof Track)
-                .cast(Track.class);
+                .cast(Track.class)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<PlayState> subscribeToPlayState() {
         return playbackEventObservable
                 .filter(playbackEvent -> playbackEvent instanceof PlayState)
-                .cast(PlayState.class);
+                .cast(PlayState.class)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<PlayPosition> subscribeToPlayPosition() {
         return playbackEventObservable
                 .filter(playbackEvent -> playbackEvent instanceof PlayPosition)
-                .cast(PlayPosition.class);
+                .cast(PlayPosition.class)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

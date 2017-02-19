@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.kikermo.thingsaudioreceiver.R;
+import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
+import org.kikermo.thingsaudioreceiver.model.data.PlayState;
+import org.kikermo.thingsaudioreceiver.model.data.Track;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NowPlayingFragment extends Fragment {
+public class NowPlayingFragment extends Fragment implements NowPlayingContract.View {
 
 
     public NowPlayingFragment() {
@@ -27,4 +30,23 @@ public class NowPlayingFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_now_playing, container, false);
     }
 
+    @Override
+    public void updateTrack(Track track) {
+
+    }
+
+    @Override
+    public void updatePosition(PlayPosition position) {
+
+    }
+
+    @Override
+    public void updatePlayState(PlayState playState) {
+
+    }
+
+    @Override
+    public void setBasePresenter(NowPlayingContract.Presenter presenter) {
+
+    }
 }
