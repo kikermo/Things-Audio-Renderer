@@ -1,9 +1,6 @@
 package org.kikermo.thingsaudioreceiver.nowplaying;
 
-import android.content.Context;
-
 import org.kikermo.thingsaudioreceiver.model.ReceiverRepository;
-import org.kikermo.thingsaudioreceiver.model.ReceiverRepositoryImp;
 import org.kikermo.thingsaudioreceiver.util.Log;
 
 import rx.Subscription;
@@ -20,8 +17,8 @@ public class NowPlayingPresenter implements NowPlayingContract.Presenter {
     private CompositeSubscription compositeSubscription;
 
 
-    public NowPlayingPresenter(Context context, NowPlayingContract.View view) {
-        this.repository = new ReceiverRepositoryImp(context);
+    public NowPlayingPresenter(NowPlayingContract.View view, ReceiverRepository repository) {
+        this.repository = repository;
         this.view = view;
 
         this.compositeSubscription = new CompositeSubscription();
