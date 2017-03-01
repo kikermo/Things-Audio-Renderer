@@ -12,6 +12,7 @@ public class Track extends PlaybackEvent {
     private String album;
     private String artist;
     private int length;
+    private String url;
 
     public String getTitle() {
         return title;
@@ -45,6 +46,14 @@ public class Track extends PlaybackEvent {
         this.length = length;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -52,6 +61,7 @@ public class Track extends PlaybackEvent {
         dest.writeString(album);
         dest.writeString(artist);
         dest.writeInt(length);
+        dest.writeString(url);
     }
 
     public Track() {
@@ -64,6 +74,7 @@ public class Track extends PlaybackEvent {
         this.album = in.readString();
         this.artist = in.readString();
         this.length = in.readInt();
+        this.url = in.readString();
     }
 
 

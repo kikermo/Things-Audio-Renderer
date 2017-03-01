@@ -32,11 +32,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile "io.reactivex:rxandroid:$RXANDROID_VERSION"
-    compile "io.reactivex:rxjava:$RXJAVA_VERSION"
-
-
-    compile 'com.f2prateek.rx.receivers:rx-receivers:0.1.0'
+    compile "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
+    compile "io.reactivex.rxjava2:rxjava:$RXJAVA_VERSION"
 
     compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'

@@ -5,7 +5,8 @@ import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
 import org.kikermo.thingsaudioreceiver.model.data.PlayState;
 import org.kikermo.thingsaudioreceiver.model.data.Track;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by EnriqueR on 19/02/2017.

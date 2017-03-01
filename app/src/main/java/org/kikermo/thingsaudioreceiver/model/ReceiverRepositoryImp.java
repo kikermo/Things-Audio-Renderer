@@ -3,7 +3,6 @@ package org.kikermo.thingsaudioreceiver.model;
 import android.content.Context;
 import android.content.IntentFilter;
 
-import com.f2prateek.rx.receivers.RxBroadcastReceiver;
 
 import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
 import org.kikermo.thingsaudioreceiver.model.data.PlayState;
@@ -11,9 +10,10 @@ import org.kikermo.thingsaudioreceiver.model.data.PlaybackEvent;
 import org.kikermo.thingsaudioreceiver.model.data.Track;
 import org.kikermo.thingsaudioreceiver.util.Utils;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 import static org.kikermo.thingsaudioreceiver.util.Constants.BA_PLAYBACKEVENT;
 import static org.kikermo.thingsaudioreceiver.util.Constants.BK_PLAYBACKEVENT;
@@ -24,7 +24,7 @@ public class ReceiverRepositoryImp implements ReceiverRepository {
     private Observable<PlaybackEvent> playbackEventObservable;
 
     public ReceiverRepositoryImp(Context context) {
-        this.playbackEventObservable = RxBroadcastReceiver.create(context, new IntentFilter(BA_PLAYBACKEVENT))
+        this.playbackEventObservable = RxBroadcastReceiver.fromBroadcast(context, new IntentFilter(BA_PLAYBACKEVENT))
                 .subscribeOn(Schedulers.io())
                 .filter(Utils::notNull)
                 .map(intent -> (PlaybackEvent) intent.getParcelableExtra(BK_PLAYBACKEVENT))
