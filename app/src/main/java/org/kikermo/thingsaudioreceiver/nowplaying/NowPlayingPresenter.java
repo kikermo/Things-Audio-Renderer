@@ -3,8 +3,10 @@ package org.kikermo.thingsaudioreceiver.nowplaying;
 import org.kikermo.thingsaudioreceiver.model.ReceiverRepository;
 import org.kikermo.thingsaudioreceiver.util.Log;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by EnriqueR on 17/02/2017.
@@ -14,42 +16,42 @@ public class NowPlayingPresenter implements NowPlayingContract.Presenter {
     private ReceiverRepository repository;
     private NowPlayingContract.View view;
 
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
 
     public NowPlayingPresenter(NowPlayingContract.View view, ReceiverRepository repository) {
         this.repository = repository;
         this.view = view;
 
-        this.compositeSubscription = new CompositeSubscription();
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void subscribe() {
-        compositeSubscription.add(subscribeToPlayPosition());
-        compositeSubscription.add(subscribeToPlayStateChanges());
-        compositeSubscription.add(subscribeToTrackUpdates());
+        compositeDisposable.add(subscribeToPlayPosition());
+        compositeDisposable.add(subscribeToPlayStateChanges());
+        compositeDisposable.add(subscribeToTrackUpdates());
     }
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 
 
-    private Subscription subscribeToPlayPosition() {
+    private Disposable subscribeToPlayPosition() {
         return repository.subscribeToPlayPosition()
                 .subscribe(playPosition -> view.updatePosition(playPosition),
                         Log::logThrowable);
     }
 
-    private Subscription subscribeToTrackUpdates() {
+    private Disposable subscribeToTrackUpdates() {
         return repository.subscribeToTrackUpdates()
                 .subscribe(track -> view.updateTrack(track),
                         Log::logThrowable);
     }
 
-    private Subscription subscribeToPlayStateChanges() {
+    private Disposable subscribeToPlayStateChanges() {
         return repository.subscribeToPlayState()
                 .subscribe(playState -> view.updatePlayState(playState),
                         Log::logThrowable);
