@@ -55,7 +55,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         intentFilter.addAction(Constants.BA_PLAY);
         registerReceiver(controlReceiver, intentFilter);
 
-        progressDisposable = Observable.interval(1, TimeUnit.SECONDS).map(aLong -> mediaPlayer.getCurrentPosition()/1000)
+        progressDisposable = Observable.interval(1, TimeUnit.SECONDS).map(aLong -> mediaPlayer.getCurrentPosition() / 1000)
                 .distinctUntilChanged()
                 .subscribe(integer -> {
                     PlayPosition playPosition = new PlayPosition();
@@ -94,7 +94,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
             return;
         }
 
-        if (trackPointer >= trackList.size() + 1) {
+        if (trackPointer < trackList.size()) {
             trackPointer++;
             playCurrentSong();
         } else {
@@ -113,6 +113,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
 
         sendBroadcast(intent);
         try {
+            mediaPlayer.reset();
             mediaPlayer.setDataSource(track.getUrl());
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -134,13 +135,13 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
                     mediaPlayer.start();
                     break;
                 case Constants.BA_SKIP_NEXT:
-                    if (trackPointer >= trackList.size() + 1) {
+                    if (trackPointer < trackList.size()) {
                         trackPointer++;
                         playCurrentSong();
                     }
                     break;
                 case Constants.BA_SKIP_PREV:
-                    if (trackPointer <= 1) {
+                    if (trackPointer >= 1) {
                         trackPointer--;
                         playCurrentSong();
                     }
