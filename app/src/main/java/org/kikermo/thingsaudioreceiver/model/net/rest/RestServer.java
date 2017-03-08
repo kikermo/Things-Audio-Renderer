@@ -74,12 +74,10 @@ public class RestServer implements Runnable {
         }
     }
 
-    public int getPort() {
-        return port;
-    }
 
     @Override
     public void run() {
+        Log.i(TAG, "RestServer about to run");
         try {
             serverSocket = new ServerSocket(port);
             while (isRunning) {
@@ -115,6 +113,7 @@ public class RestServer implements Runnable {
                     int start = line.indexOf('/') + 1;
                     int end = line.indexOf(' ', start);
                     route = line.substring(start, end);
+                    Log.d(TAG, "Route: " + route);
                     break;
                 } else {
                     writeServerError(output);
@@ -132,24 +131,24 @@ public class RestServer implements Runnable {
             }
             byte[] response = new byte[0];
             switch (route) {
-                case "/control/play":
+                case "control/play":
                     if (notNull(restCallback))
                         restCallback.playReceived();
                     break;
-                case "/control/pause":
+                case "control/pause":
                     if (notNull(restCallback))
                         restCallback.pauseReceived();
                     break;
-                case "/control/skip_prev":
+                case "control/skip_prev":
                     if (notNull(restCallback))
                         restCallback.skipPrevReceived();
                     break;
-                case "/control/skip_next":
+                case "control/skip_next":
                     if (notNull(restCallback))
                         restCallback.playReceived();
                     break;
-                case "/songs/add":
-                    if (currentResponseType == GET) {
+                case "songs/add":
+                    if (currentResponseType == POST) {
                         List<Track> trackList = gson.fromJson(body, new TypeToken<List<Track>>() {
                         }.getType());
                         if (notNull(restCallback))
@@ -218,12 +217,48 @@ public class RestServer implements Runnable {
     }
 
 
-    private String getBody(BufferedReader reader) {
-        try {
-            Log.d("Line", reader.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
+    private String getBody(BufferedReader reader) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+//        while (!TextUtils.isEmpty(line = reader.readLine())) {
+//            if (line.startsWith("Content-Length: ")) {
+//                int start = line.indexOf(' ') + 1;
+//                Log.d(TAG, "Body size =" + line.substring(start));
+//
+//                while (!TextUtils.isEmpty(line = reader.readLine())) {
+//                    stringBuilder.append(" ").append(line);
+//                }
+//                final String body = stringBuilder.toString();
+//                Log.i(TAG, "Body:\r\n" + body);
+//                return body;
+//            }
+//        }
+
+
+        while (!TextUtils.isEmpty(line = reader.readLine())) {
+            if (line.startsWith("Content-Length: ")) {
+                int start = line.indexOf(' ') + 1;
+                Log.d(TAG, "Body size =" + line.substring(start));
+                if(line.substring(start).equals("0"))
+                    return "";
+            }
         }
-        return "[]";
+        if(!reader.ready())
+            return "";
+//        while ((line = reader.readLine()) != null) {
+        //   reader.readLine();
+        int c = 0;
+        while ((c = reader.read()) != -1) {
+            stringBuilder.append((char) c);
+            if(!reader.ready())
+                break;
+        }
+        final String body = stringBuilder.toString();
+        Log.i(TAG, "Body:\r\n" + body);
+        if (body.isEmpty())
+            return "[]";
+        return body;
+
+
     }
 }

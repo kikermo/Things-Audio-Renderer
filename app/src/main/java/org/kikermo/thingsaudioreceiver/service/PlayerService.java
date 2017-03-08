@@ -5,12 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import org.kikermo.thingsaudioreceiver.model.data.Track;
 import org.kikermo.thingsaudioreceiver.util.Constants;
+import org.kikermo.thingsaudioreceiver.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     public void onCreate() {
         super.onCreate();
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnCompletionListener(this);
 
         IntentFilter intentFilter = new IntentFilter();
@@ -89,6 +92,8 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         sendBroadcast(intent);
         try {
             mediaPlayer.setDataSource(track.getUrl());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +103,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     private BroadcastReceiver controlReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("Player","Command Received");
             switch (intent.getAction()) {
                 case Constants.BA_PAUSE:
                     mediaPlayer.pause();
@@ -118,7 +124,8 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
                     }
                     break;
                 case Constants.BA_NEW_TRACKLIST:
-                    List<Track> newTracks = intent.getParcelableArrayListExtra(Constants.BA_NEW_TRACKLIST);
+                    Log.d("Player","New list");
+                    List<Track> newTracks = intent.getParcelableArrayListExtra(Constants.BK_TRACKLIST);
                     mediaPlayer.stop();
                     trackList.clear();
                     trackList.addAll(newTracks);

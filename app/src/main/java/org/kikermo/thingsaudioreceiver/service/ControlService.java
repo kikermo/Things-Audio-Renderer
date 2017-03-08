@@ -10,6 +10,7 @@ import org.kikermo.thingsaudioreceiver.model.data.Track;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestCallback;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestServer;
 import org.kikermo.thingsaudioreceiver.util.Constants;
+import org.kikermo.thingsaudioreceiver.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ControlService extends Service implements RestCallback {
     }
 
     private void startRestServer() {
-        restServer = new RestServer(80);
+        restServer = new RestServer(8080);
         restServer.setRestCallback(this);
         restServer.start();
     }
@@ -63,7 +64,7 @@ public class ControlService extends Service implements RestCallback {
     public void listReceived(List<Track> trackList) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(Constants.BK_TRACKLIST, (ArrayList<? extends Parcelable>) trackList);
-        sendBroadcastAction(Constants.BK_TRACKLIST, bundle);
+        sendBroadcastAction(Constants.BA_NEW_TRACKLIST, bundle);
     }
 
     @Override
