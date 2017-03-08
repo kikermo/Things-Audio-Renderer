@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.kikermo.thingsaudioreceiver.R;
 import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
@@ -19,6 +22,7 @@ import org.kikermo.thingsaudioreceiver.util.Utils;
 public class NowPlayingFragment extends Fragment implements NowPlayingContract.View {
     private TextView text1, text2, text3, songLength, progressVal;
     private ProgressBar progress;
+    private ImageView art;
 
     public NowPlayingFragment() {
         // Required empty public constructor
@@ -36,6 +40,7 @@ public class NowPlayingFragment extends Fragment implements NowPlayingContract.V
         progressVal = (TextView) v.findViewById(R.id.trackPointer);
         songLength = (TextView) v.findViewById(R.id.songLength);
         progress = (ProgressBar) v.findViewById(R.id.songProgress);
+        art = (ImageView) v.findViewById(R.id.art);
         return v;
     }
 
@@ -47,6 +52,10 @@ public class NowPlayingFragment extends Fragment implements NowPlayingContract.V
 
         songLength.setText(Utils.formatSeconds(track.getLength()));
         progress.setMax(track.getLength());
+
+        Picasso.with(getContext())
+                .load(track.getArt())
+                .into(art);
 
     }
 

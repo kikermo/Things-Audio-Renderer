@@ -10,13 +10,19 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
 import org.kikermo.thingsaudioreceiver.model.data.Track;
 import org.kikermo.thingsaudioreceiver.util.Constants;
 import org.kikermo.thingsaudioreceiver.util.Log;
+import org.kikermo.thingsaudioreceiver.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 public class PlayerService extends Service implements MediaPlayer.OnCompletionListener {
     private MediaPlayer mediaPlayer;
@@ -24,7 +30,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     private int trackPointer;
     private boolean repeatList;
     private boolean repeatSong;
-
+    private Disposable progressDisposable;
 
     public PlayerService() {
         trackList = new ArrayList<>();
@@ -40,6 +46,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnCompletionListener(this);
 
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.BA_NEW_TRACKLIST);
         intentFilter.addAction(Constants.BA_SKIP_NEXT);
@@ -47,6 +54,19 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         intentFilter.addAction(Constants.BA_PAUSE);
         intentFilter.addAction(Constants.BA_PLAY);
         registerReceiver(controlReceiver, intentFilter);
+
+        progressDisposable = Observable.interval(1, TimeUnit.SECONDS).map(aLong -> mediaPlayer.getCurrentPosition()/1000)
+                .distinctUntilChanged()
+                .subscribe(integer -> {
+                    PlayPosition playPosition = new PlayPosition();
+                    playPosition.setPosition(integer);
+                    Intent posInt = new Intent();
+                    posInt.putExtra(Constants.BK_PLAYBACKEVENT, playPosition);
+                    posInt.setAction(Constants.BA_PLAYBACKEVENT);
+
+                    sendBroadcast(posInt);
+                    Log.d("Player", "pos" + integer);
+                });
     }
 
 
@@ -55,6 +75,8 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         mediaPlayer.release();
         mediaPlayer = null;
         unregisterReceiver(controlReceiver);
+        if (Utils.notNull(progressDisposable))
+            progressDisposable.dispose();
         super.onDestroy();
     }
 
@@ -103,7 +125,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     private BroadcastReceiver controlReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Player","Command Received");
+            Log.d("Player", "Command Received");
             switch (intent.getAction()) {
                 case Constants.BA_PAUSE:
                     mediaPlayer.pause();
@@ -124,7 +146,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
                     }
                     break;
                 case Constants.BA_NEW_TRACKLIST:
-                    Log.d("Player","New list");
+                    Log.d("Player", "New list");
                     List<Track> newTracks = intent.getParcelableArrayListExtra(Constants.BK_TRACKLIST);
                     mediaPlayer.stop();
                     trackList.clear();

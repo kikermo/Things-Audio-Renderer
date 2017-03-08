@@ -37,6 +37,8 @@ dependencies {
 
     compile "com.google.code.gson:gson:$GSON_VERSION"
 
+    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
+
     compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'
 }
