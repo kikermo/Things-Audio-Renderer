@@ -13,7 +13,7 @@ public class Track extends PlaybackEvent {
     private String artist;
     private int length;
     private String url;
-private String art;
+    private String art;
 
     public String getTitle() {
         return title;
