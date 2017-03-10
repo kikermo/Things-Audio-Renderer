@@ -4,9 +4,12 @@ This project is an example of how to implement a very simple network audio playe
 
 Usage
 -----
-When the app is running, there is a RESTful service listening on port 8080, on the IP address of the device.
+When the app is running, there is a RESTful service listening on port 8080, on the IP address of the device. Calls are then made by doing GETs or POST using the format:
+```
+<ip of the device>:8080/<api method>
+```
 
-In this firs stage, just a few endpoints have been implemented for the basic functionality.
+At this first stage, just a few API methods have been implemented for the basic functionality.
 
 For adding songs to play, the API method is:
 ```
