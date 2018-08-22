@@ -3,15 +3,14 @@ apply plugin: 'me.tatarka.retrolambda'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion "27.0.3" //$versions.androidBuildTools"
     defaultConfig {
         applicationId "org.kikermo.thingsaudioreceiver"
-        minSdkVersion 23
-        targetSdkVersion 25
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -27,18 +26,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    implementation projectDependencies.rxjava
+    implementation projectDependencies.rxandroid
 
-    compile "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
-    compile "io.reactivex.rxjava2:rxjava:$RXJAVA_VERSION"
+    implementation projectDependencies.gson
 
-    compile "com.google.code.gson:gson:$GSON_VERSION"
+    implementation projectDependencies.picasso
 
-    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
-
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    testCompile 'junit:junit:4.12'
+    implementation projectDependencies.supportAppCompat
 }

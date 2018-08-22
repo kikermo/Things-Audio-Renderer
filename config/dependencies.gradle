@@ -1,0 +1,20 @@
+ext.projectDependencies = [
+        gradleBuildTools       : "com.android.tools.build:gradle:$versions.gradleBuildTools",
+
+        supportAppCompat       : "com.android.support:appcompat-v7:$versions.supportLibrary",
+        supportDesign          : "com.android.support:design:$versions.supportLibrary",
+        supportV4              : "com.android.support:support-v4:$versions.supportLibrary",
+        supportV13             : "com.android.support:support-v13:$versions.supportLibrary",
+        supportCompat          : "com.android.support:support-compat:$versions.supportLibrary",
+        supportConstraintLayout: "com.android.support.constraint:constraint-layout:$versions.supportConstraint",
+
+        kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin",
+        kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+
+        rxjava                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
+        rxandroid              : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
+
+        timber                 : "com.jakewharton.timber:timber:$versions.timber",
+        gson                   : "com.google.code.gson:gson:$versions.gson",
+        picasso                : "com.squareup.picasso:picasso:$versions.picasso"
+]
