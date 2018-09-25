@@ -8,6 +8,8 @@ ext.projectDependencies = [
         supportCompat          : "com.android.support:support-compat:$versions.supportLibrary",
         supportConstraintLayout: "com.android.support.constraint:constraint-layout:$versions.supportConstraint",
 
+        adndroidThings         : 'com.google.android.things:androidthings:$versions.androidThings',
+
         kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin",
         kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
 

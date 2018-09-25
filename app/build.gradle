@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion versions.compileSdk
-    buildToolsVersion "27.0.3" //$versions.androidBuildTools"
+    buildToolsVersion "$versions.androidBuildTools"
     defaultConfig {
         applicationId "org.kikermo.thingsaudioreceiver"
         minSdkVersion versions.minSdk
@@ -34,4 +34,5 @@ dependencies {
     implementation projectDependencies.picasso
 
     implementation projectDependencies.supportAppCompat
+    compileOnly projectDependencies.androidThings
 }
