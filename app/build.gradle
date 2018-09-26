@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+    implementation projectDependencies.kotlin
+
     implementation projectDependencies.rxjava
     implementation projectDependencies.rxandroid
 
@@ -34,5 +36,6 @@ dependencies {
     implementation projectDependencies.picasso
 
     implementation projectDependencies.supportAppCompat
+
     compileOnly projectDependencies.androidThings
 }
