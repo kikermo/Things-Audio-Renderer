@@ -10,11 +10,11 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+    implementation projectDependencies.core
+
     implementation projectDependencies.kotlin
 
     implementation projectDependencies.rxjava
@@ -34,6 +36,7 @@ dependencies {
     implementation projectDependencies.gson
 
     implementation projectDependencies.picasso
+    implementation projectDependencies.timber
 
     implementation projectDependencies.supportAppCompat
 

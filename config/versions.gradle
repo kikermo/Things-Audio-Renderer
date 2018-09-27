@@ -20,5 +20,5 @@ ext.versions = [
         compileSdk       : 27,
         minSdk           : 21,
         targetSdk        : 27,
-        androidBuildTools: '27.0.3'
+        androidBuildTools: '28.0.2'
 ]

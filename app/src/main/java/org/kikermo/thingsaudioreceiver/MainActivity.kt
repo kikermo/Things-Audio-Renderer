@@ -9,7 +9,7 @@ import org.kikermo.thingsaudioreceiver.nowplaying.NowPlayingFragment
 import org.kikermo.thingsaudioreceiver.nowplaying.NowPlayingPresenter
 
 class MainActivity : AppCompatActivity() {
-    private var presenter: NowPlayingContract.Presenter
+    private lateinit var presenter: NowPlayingContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        presenter.subscribe()
+        presenter?.run {  subscribe()}
     }
 
     override fun onPause() {

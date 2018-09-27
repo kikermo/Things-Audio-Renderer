@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
 
-import org.kikermo.thingsaudioreceiver.model.data.Track;
+import org.kikermo.thingsaudio.core.model.Track;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestCallback;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestServer;
 import org.kikermo.thingsaudioreceiver.util.Constants;
-import org.kikermo.thingsaudioreceiver.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class ControlService extends Service implements RestCallback {
     @Override
     public void listReceived(List<Track> trackList) {
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(Constants.BK_TRACKLIST, (ArrayList<? extends Parcelable>) trackList);
+        bundle.putSerializable(Constants.BK_TRACKLIST, (ArrayList<? extends Serializable>) trackList);
         sendBroadcastAction(Constants.BA_NEW_TRACKLIST, bundle);
     }
 

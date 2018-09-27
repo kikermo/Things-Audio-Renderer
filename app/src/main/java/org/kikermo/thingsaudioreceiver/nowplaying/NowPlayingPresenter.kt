@@ -6,11 +6,10 @@ import org.kikermo.thingsaudioreceiver.util.Log
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-/**
- * Created by EnriqueR on 17/02/2017.
- */
 
-class NowPlayingPresenter(private val view: NowPlayingContract.View, private val repository: ReceiverRepository) : NowPlayingContract.Presenter {
+
+class NowPlayingPresenter(private val view: NowPlayingContract.View,
+                          private val repository: ReceiverRepository) : NowPlayingContract.Presenter {
 
     private val compositeDisposable: CompositeDisposable
 

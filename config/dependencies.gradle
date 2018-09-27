@@ -18,5 +18,8 @@ ext.projectDependencies = [
 
         timber                 : "com.jakewharton.timber:timber:$versions.timber",
         gson                   : "com.google.code.gson:gson:$versions.gson",
-        picasso                : "com.squareup.picasso:picasso:$versions.picasso"
+        picasso                : "com.squareup.picasso:picasso:$versions.picasso",
+
+        core                   : project("core")
+
 ]
