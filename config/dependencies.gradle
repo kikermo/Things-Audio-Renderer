@@ -20,6 +20,11 @@ ext.projectDependencies = [
         gson                   : "com.google.code.gson:gson:$versions.gson",
         picasso                : "com.squareup.picasso:picasso:$versions.picasso",
 
+        ktor                   : "io.ktor:ktor:$versions.ktor",
+        ktorNetty              : "io.ktor:ktor-server-netty:$versions.ktor",
+
+        kodein                 : "org.kodein.di:kodein-di-generic-jvm:$versions.kodein",
+
         core                   : project("core"),
         coreApi                : project("core_api")
 

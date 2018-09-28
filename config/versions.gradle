@@ -16,6 +16,9 @@ ext.versions = [
         gson             : '2.8.1',
         picasso          : '2.5.2',
 
+        ktor             : '0.9.5',
+        kodein           : '5.2.0',
+
         // Basic Config
         compileSdk       : 27,
         minSdk           : 21,
