@@ -1,14 +1,12 @@
 package org.kikermo.thingsaudioreceiver.model.net.rest;
 
 import android.text.TextUtils;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
-import org.kikermo.thingsaudioreceiver.model.data.Track;
-import org.kikermo.thingsaudioreceiver.util.Log;
+import org.kikermo.thingsaudio.core.api.model.Track;
+import timber.log.Timber;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +19,9 @@ import java.util.List;
 
 import static org.kikermo.thingsaudioreceiver.util.Utils.notNull;
 
-
 public class RestServer implements Runnable {
-    private static final String TAG = "RestServer";
 
+    private static final String TAG = "RestServer";
 
     private static final int GET = 1;
     private static final int POST = 2;
@@ -37,7 +34,6 @@ public class RestServer implements Runnable {
     private RestCallback restCallback;
     private int currentResponseType;
     private Gson gson;
-
 
     public RestServer(int port) {
         this.port = port;
@@ -70,14 +66,13 @@ public class RestServer implements Runnable {
                 serverSocket = null;
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error closing the server socket.", e);
+            Timber.e(TAG, "Error closing the server socket.", e);
         }
     }
 
-
     @Override
     public void run() {
-        Log.i(TAG, "RestServer about to run");
+        Timber.i(TAG, "RestServer about to run");
         try {
             serverSocket = new ServerSocket(port);
             while (isRunning) {
@@ -88,7 +83,7 @@ public class RestServer implements Runnable {
         } catch (SocketException e) {
             // The server was stopped; ignore.
         } catch (IOException e) {
-            Log.e(TAG, "Web server error.", e);
+            Timber.e(TAG, "Web server error.", e);
         }
     }
 
@@ -96,7 +91,6 @@ public class RestServer implements Runnable {
      * Respond to a request from a client.
      *
      * @param socket The client socket.
-     * @throws IOException
      */
     private void handle(Socket socket) throws IOException {
         BufferedReader reader = null;
@@ -113,7 +107,7 @@ public class RestServer implements Runnable {
                     int start = line.indexOf('/') + 1;
                     int end = line.indexOf(' ', start);
                     route = line.substring(start, end);
-                    Log.d(TAG, "Route: " + route);
+                    Timber.d(TAG, "Route: " + route);
                     break;
                 } else {
                     writeServerError(output);
@@ -132,27 +126,32 @@ public class RestServer implements Runnable {
             byte[] response = new byte[0];
             switch (route) {
                 case "control/play":
-                    if (notNull(restCallback))
+                    if (notNull(restCallback)) {
                         restCallback.playReceived();
+                    }
                     break;
                 case "control/pause":
-                    if (notNull(restCallback))
+                    if (notNull(restCallback)) {
                         restCallback.pauseReceived();
+                    }
                     break;
                 case "control/skip_prev":
-                    if (notNull(restCallback))
+                    if (notNull(restCallback)) {
                         restCallback.skipPrevReceived();
+                    }
                     break;
                 case "control/skip_next":
-                    if (notNull(restCallback))
+                    if (notNull(restCallback)) {
                         restCallback.playReceived();
+                    }
                     break;
                 case "songs/add":
                     if (currentResponseType == POST) {
                         List<Track> trackList = gson.fromJson(body, new TypeToken<List<Track>>() {
                         }.getType());
-                        if (notNull(restCallback))
+                        if (notNull(restCallback)) {
                             restCallback.listReceived(trackList);
+                        }
                     }
                     break;
                 default:
@@ -160,11 +159,11 @@ public class RestServer implements Runnable {
                     return;
             }
 
-//            byte[] bytes = loadContent(route);
-//            if (null == bytes) {
-//                writeServerError(output);
-//                return;
-//            }
+            //            byte[] bytes = loadContent(route);
+            //            if (null == bytes) {
+            //                writeServerError(output);
+            //                return;
+            //            }
 
             // Send out the content.
             output.println("HTTP/1.0 200 OK");
@@ -195,70 +194,71 @@ public class RestServer implements Runnable {
         output.flush();
     }
 
-
     private void writeNotFoundError(PrintStream output) {
         output.println("HTTP/1.0 404 Not Found");
         output.flush();
     }
 
     private boolean getMessageType(String header) {
-        if (header.startsWith("GET /"))
+        if (header.startsWith("GET /")) {
             currentResponseType = GET;
-        else if (header.startsWith("POST /"))
+        } else if (header.startsWith("POST /")) {
             currentResponseType = POST;
-        else if (header.startsWith("DELETE /"))
+        } else if (header.startsWith("DELETE /")) {
             currentResponseType = DELETE;
-        else if (header.startsWith("PUT /"))
+        } else if (header.startsWith("PUT /")) {
             currentResponseType = PUT;
-        else
+        } else {
             return false;
+        }
 
         return true;
     }
 
-
     private String getBody(BufferedReader reader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         String line;
-//        while (!TextUtils.isEmpty(line = reader.readLine())) {
-//            if (line.startsWith("Content-Length: ")) {
-//                int start = line.indexOf(' ') + 1;
-//                Log.d(TAG, "Body size =" + line.substring(start));
-//
-//                while (!TextUtils.isEmpty(line = reader.readLine())) {
-//                    stringBuilder.append(" ").append(line);
-//                }
-//                final String body = stringBuilder.toString();
-//                Log.i(TAG, "Body:\r\n" + body);
-//                return body;
-//            }
-//        }
-
+        //        while (!TextUtils.isEmpty(line = reader.readLine())) {
+        //            if (line.startsWith("Content-Length: ")) {
+        //                int start = line.indexOf(' ') + 1;
+        //                Timber.d(TAG, "Body size =" + line.substring(start));
+        //
+        //                while (!TextUtils.isEmpty(line = reader.readLine())) {
+        //                    stringBuilder.append(" ").append(line);
+        //                }
+        //                final String body = stringBuilder.toString();
+        //                Timber.i(TAG, "Body:\r\n" + body);
+        //                return body;
+        //            }
+        //        }
 
         while (!TextUtils.isEmpty(line = reader.readLine())) {
             if (line.startsWith("Content-Length: ")) {
                 int start = line.indexOf(' ') + 1;
-                Log.d(TAG, "Body size =" + line.substring(start));
-                if(line.substring(start).equals("0"))
+                Timber.d(TAG, "Body size =" + line.substring(start));
+                if (line.substring(start).equals("0")) {
                     return "";
+                }
             }
         }
-        if(!reader.ready())
+        if (!reader.ready()) {
             return "";
-//        while ((line = reader.readLine()) != null) {
+        }
+        //        while ((line = reader.readLine()) != null) {
         //   reader.readLine();
         int c = 0;
         while ((c = reader.read()) != -1) {
             stringBuilder.append((char) c);
-            if(!reader.ready())
+            if (!reader.ready()) {
                 break;
+            }
         }
         final String body = stringBuilder.toString();
-        Log.i(TAG, "Body:\r\n" + body);
-        if (body.isEmpty())
+        Timber.i(TAG, "Body:\r\n" + body);
+        if (body.isEmpty()) {
             return "[]";
+        }
         return body;
-
 
     }
 }

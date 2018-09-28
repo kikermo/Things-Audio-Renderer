@@ -10,10 +10,8 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import org.kikermo.thingsaudioreceiver.model.data.PlayPosition;
-import org.kikermo.thingsaudioreceiver.model.data.Track;
+import org.kikermo.thingsaudio.core.api.model.Track;
 import org.kikermo.thingsaudioreceiver.util.Constants;
-import org.kikermo.thingsaudioreceiver.util.Log;
 import org.kikermo.thingsaudioreceiver.util.Utils;
 
 import java.io.IOException;
@@ -23,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 public class PlayerService extends Service implements MediaPlayer.OnCompletionListener {
     private MediaPlayer mediaPlayer;
@@ -58,14 +57,13 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
         progressDisposable = Observable.interval(1, TimeUnit.SECONDS).map(aLong -> mediaPlayer.getCurrentPosition() / 1000)
                 .distinctUntilChanged()
                 .subscribe(integer -> {
-                    PlayPosition playPosition = new PlayPosition();
-                    playPosition.setPosition(integer);
+                    int playPosition = integer
                     Intent posInt = new Intent();
                     posInt.putExtra(Constants.BK_PLAYBACKEVENT, playPosition);
                     posInt.setAction(Constants.BA_PLAYBACKEVENT);
 
                     sendBroadcast(posInt);
-                    Log.d("Player", "pos" + integer);
+                    Timber.d("Player", "pos" + integer);
                 });
     }
 
@@ -126,7 +124,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     private BroadcastReceiver controlReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Player", "Command Received");
+            Timber.d("Command Received");
             switch (intent.getAction()) {
                 case Constants.BA_PAUSE:
                     mediaPlayer.pause();
@@ -147,7 +145,7 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
                     }
                     break;
                 case Constants.BA_NEW_TRACKLIST:
-                    Log.d("Player", "New list");
+                    Timber.d("New list");
                     List<Track> newTracks = intent.getParcelableArrayListExtra(Constants.BK_TRACKLIST);
                     mediaPlayer.stop();
                     trackList.clear();

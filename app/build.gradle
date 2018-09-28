@@ -33,6 +33,8 @@ dependencies {
 
     implementation projectDependencies.kotlin
 
+    implementation projectDependencies.kodein
+
     implementation projectDependencies.rxjava
     implementation projectDependencies.rxandroid
 
