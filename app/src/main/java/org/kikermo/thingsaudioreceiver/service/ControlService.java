@@ -4,9 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Parcelable;
 
-import org.kikermo.thingsaudio.core.model.Track;
+import org.kikermo.thingsaudio.core.api.model.Track;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestCallback;
 import org.kikermo.thingsaudioreceiver.model.net.rest.RestServer;
 import org.kikermo.thingsaudioreceiver.util.Constants;

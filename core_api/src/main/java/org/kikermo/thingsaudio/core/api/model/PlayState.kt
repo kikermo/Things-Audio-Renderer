@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudio.core.model
+package org.kikermo.thingsaudio.core.api.model
 
 enum class PlayState {
     STATE_READY,

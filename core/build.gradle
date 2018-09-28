@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -18,14 +20,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+    implementation projectDependencies.coreApi
+
     implementation projectDependencies.kotlin
 
     implementation projectDependencies.rxjava
+    implementation projectDependencies.rxandroid
 
     implementation projectDependencies.timber
 
     implementation projectDependencies.supportAppCompat
+    implementation projectDependencies.supportV4
 }

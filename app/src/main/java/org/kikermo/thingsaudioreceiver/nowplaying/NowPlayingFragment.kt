@@ -1,24 +1,27 @@
 package org.kikermo.thingsaudioreceiver.nowplaying
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-
 import com.squareup.picasso.Picasso
-
+import kotlinx.android.synthetic.main.fragment_now_playing.*
+import org.kikermo.thingsaudio.core.base.BaseFragmentWithPresenter
+import org.kikermo.thingsaudio.core.api.model.PlayState
+import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.utils.toFormatedSeconds
 import org.kikermo.thingsaudioreceiver.R
-import org.kikermo.thingsaudioreceiver.model.data.PlayPosition
-import org.kikermo.thingsaudioreceiver.model.data.PlayState
-import org.kikermo.thingsaudioreceiver.model.data.Track
-import org.kikermo.thingsaudioreceiver.util.Utils
 
-class NowPlayingFragment : Fragment(), NowPlayingContract.View {
+class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, NowPlayingContract.Presenter>(),
+    NowPlayingContract.View {
+    ]
+    override fun providePresenter(): NowPlayingContract.Presenter {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun provideView(): NowPlayingContract.View {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
@@ -29,7 +32,7 @@ class NowPlayingFragment : Fragment(), NowPlayingContract.View {
         now_playing_artist_name.text = track.artist
         now_playing_artist_name.text = track.album
 
-        now_playing_track_lenght.text = Utils.formatSeconds(track.length)
+        now_playing_track_lenght.text = track.length.toFormatedSeconds()
         now_playing_progress_bar.max = track.length
 
         Picasso.with(context)
@@ -37,9 +40,9 @@ class NowPlayingFragment : Fragment(), NowPlayingContract.View {
             .into(now_playing_art)
     }
 
-    override fun updatePosition(position: PlayPosition) {
-        now_playing_progress_bar.progress = position.position
-        now_playing_progress_text.text = position.formattedPosition
+    override fun updatePosition(position: Int) {
+        now_playing_progress_bar.progress = position
+        now_playing_progress_text.text = position.toFormatedSeconds()
     }
 
     override fun updatePlayState(playState: PlayState) {

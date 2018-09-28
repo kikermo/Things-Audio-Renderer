@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudio.core.model
+package org.kikermo.thingsaudio.core.api.model
 
 data class Track(
     val title: String? = null,
@@ -7,4 +7,4 @@ data class Track(
     var length: Int = 0,
     var url: String? = null,
     var art: String? = null
-) : PlaybackEvent()
+)

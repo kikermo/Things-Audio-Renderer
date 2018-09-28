@@ -1,49 +1,20 @@
 package org.kikermo.thingsaudioreceiver.model
 
-import android.content.Context
-import android.content.IntentFilter
-
-import org.kikermo.thingsaudioreceiver.model.data.PlayPosition
-import org.kikermo.thingsaudioreceiver.model.data.PlayState
-import org.kikermo.thingsaudioreceiver.model.data.PlaybackEvent
-import org.kikermo.thingsaudioreceiver.model.data.Track
-
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import org.kikermo.thingsaudio.core.api.ReceiverRepository
+import org.kikermo.thingsaudio.core.api.model.PlayState
+import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.api.rx.RxSchedulers
 
-import org.kikermo.thingsaudioreceiver.util.Constants.BA_PLAYBACKEVENT
-import org.kikermo.thingsaudioreceiver.util.Constants.BK_PLAYBACKEVENT
+class ReceiverRepositoryImp(private val trackUpdatesObservable: Observable<Track>,
+                            private val playStateObservable: Observable<PlayState>,
+                            private val playPositionObservable: Observable<Int>,
+                            private val rxSchedulers: RxSchedulers
+) : ReceiverRepository {
 
-class ReceiverRepositoryImp(private val context: Context) : ReceiverRepository {
-    //TODO evalueate potential context leak
-    private val playbackEventObservable: Observable<PlaybackEvent>
+    override fun getTrackUpdates() = trackUpdatesObservable.observeOn(rxSchedulers.main())
 
-    init {
-        this.playbackEventObservable = RxBroadcastReceiver.fromBroadcast(context, IntentFilter(BA_PLAYBACKEVENT))
-            .subscribeOn(Schedulers.io())
-            .map<Any> { intent -> intent.getSerializableExtra(BK_PLAYBACKEVENT) as PlaybackEvent }
-            .share()
-    }
+    override fun getPlayStateUpdates() = playStateObservable.observeOn(rxSchedulers.main())
 
-    fun subscribeToTrackUpdates(): Observable<Track> {
-        return playbackEventObservable
-            .filter { playbackEvent -> playbackEvent is Track }
-            .cast(Track::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun subscribeToPlayState(): Observable<PlayState> {
-        return playbackEventObservable
-            .filter { playbackEvent -> playbackEvent is PlayState }
-            .cast(PlayState::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun subscribeToPlayPosition(): Observable<PlayPosition> {
-        return playbackEventObservable
-            .filter { playbackEvent -> playbackEvent is PlayPosition }
-            .cast(PlayPosition::class.java)
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+    override fun getPlayPositionUpdates() = playPositionObservable.observeOn(rxSchedulers.main())
 }

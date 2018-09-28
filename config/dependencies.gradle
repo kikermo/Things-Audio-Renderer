@@ -20,6 +20,7 @@ ext.projectDependencies = [
         gson                   : "com.google.code.gson:gson:$versions.gson",
         picasso                : "com.squareup.picasso:picasso:$versions.picasso",
 
-        core                   : project("core")
+        core                   : project("core"),
+        coreApi                : project("core_api")
 
 ]
