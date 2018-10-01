@@ -1,7 +1,7 @@
 ext.versions = [
         gradleBuildTools : '3.1.4',
 
-        kotlin           : '1.2.21',
+        kotlin           : '1.2.51',
         kotlinTest       : '2.0.7',
 
         rxjava           : '2.1.9',
@@ -17,7 +17,8 @@ ext.versions = [
         picasso          : '2.5.2',
 
         ktor             : '0.9.5',
-        kodein           : '5.2.0',
+
+        dagger           : '2.17',
 
         // Basic Config
         compileSdk       : 27,

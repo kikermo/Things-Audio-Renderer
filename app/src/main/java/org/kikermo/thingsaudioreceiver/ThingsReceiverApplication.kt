@@ -2,10 +2,13 @@ package org.kikermo.thingsaudioreceiver
 
 import android.app.Application
 import android.content.Intent
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.core.api.model.PlayState
 import org.kikermo.thingsaudio.core.api.model.Track
 import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
+import org.kikermo.thingsaudioreceiver.model.PlayerControlActions
 import org.kikermo.thingsaudioreceiver.model.ReceiverRepositoryImp
 import org.kikermo.thingsaudioreceiver.service.ControlService
 import org.kikermo.thingsaudioreceiver.service.PlayerService
@@ -13,9 +16,13 @@ import timber.log.Timber
 
 class ThingsReceiverApplication : Application() {
 
-    private val trackSubject: BehaviorSubject<Track> = BehaviorSubject.create()
-    private val playPositionsSubject: BehaviorSubject<Int> = BehaviorSubject.create()
-    private val playState: BehaviorSubject<PlayState> = BehaviorSubject.create()
+    // region manual DI section
+
+    val trackSubject: BehaviorSubject<Track> = BehaviorSubject.create()
+    val playPositionsSubject: BehaviorSubject<Int> = BehaviorSubject.create()
+    val playState: BehaviorSubject<PlayState> = BehaviorSubject.create()
+
+    val controlSubject: PublishSubject<PlayerControlActions> = PublishSubject.create()
 
     private val rxSchedulers = RxSchedulersImpl()
 
@@ -25,6 +32,10 @@ class ThingsReceiverApplication : Application() {
             playStateObservable = playState,
             rxSchedulers = rxSchedulers)
     }
+
+    val playerControlsObservable: Observable<PlayerControlActions> = controlSubject
+
+    //endregion
 
     override fun onCreate() {
         super.onCreate()

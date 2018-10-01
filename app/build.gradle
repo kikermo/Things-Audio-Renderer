@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -33,7 +32,11 @@ dependencies {
 
     implementation projectDependencies.kotlin
 
-    implementation projectDependencies.kodein
+    kapt projectDependencies.daggerAnnotation
+
+    implementation projectDependencies.dagger
+    implementation projectDependencies.daggerAndroid
+    implementation projectDependencies.daggerAndroidSupport
 
     implementation projectDependencies.rxjava
     implementation projectDependencies.rxandroid
@@ -45,5 +48,5 @@ dependencies {
 
     implementation projectDependencies.supportAppCompat
 
-    compileOnly projectDependencies.androidThings
+   // compileOnly projectDependencies.androidThings
 }
