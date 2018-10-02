@@ -10,7 +10,7 @@ ext.projectDependencies = [
 
         androidThings          : 'com.google.android.things:androidthings:$versions.androidThings',
 
-        kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin",
+        kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
         kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
 
         rxjava                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",

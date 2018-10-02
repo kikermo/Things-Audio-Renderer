@@ -1,6 +1,6 @@
 package org.kikermo.thingsaudioreceiver.model
 
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.Track
 
 sealed class PlayerControlActions {
     object Pause : PlayerControlActions()

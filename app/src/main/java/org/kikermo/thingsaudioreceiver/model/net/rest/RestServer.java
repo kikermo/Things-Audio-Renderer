@@ -5,7 +5,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.kikermo.thingsaudio.core.api.model.Track;
+import org.kikermo.thingsaudio.core.model.Track;
 import timber.log.Timber;
 
 import java.io.BufferedReader;
@@ -66,13 +66,13 @@ public class RestServer implements Runnable {
                 serverSocket = null;
             }
         } catch (IOException e) {
-            Timber.e(TAG, "Error closing the server socket.", e);
+            Timber.e(e);
         }
     }
 
     @Override
     public void run() {
-        Timber.i(TAG, "RestServer about to run");
+        Timber.i("RestServer about to run");
         try {
             serverSocket = new ServerSocket(port);
             while (isRunning) {
@@ -83,7 +83,7 @@ public class RestServer implements Runnable {
         } catch (SocketException e) {
             // The server was stopped; ignore.
         } catch (IOException e) {
-            Timber.e(TAG, "Web server error.", e);
+            Timber.e(e, "Web server error.");
         }
     }
 
@@ -107,7 +107,7 @@ public class RestServer implements Runnable {
                     int start = line.indexOf('/') + 1;
                     int end = line.indexOf(' ', start);
                     route = line.substring(start, end);
-                    Timber.d(TAG, "Route: " + route);
+                    Timber.d("Route: %s", route);
                     break;
                 } else {
                     writeServerError(output);
@@ -235,7 +235,7 @@ public class RestServer implements Runnable {
         while (!TextUtils.isEmpty(line = reader.readLine())) {
             if (line.startsWith("Content-Length: ")) {
                 int start = line.indexOf(' ') + 1;
-                Timber.d(TAG, "Body size =" + line.substring(start));
+                Timber.d("Body size =%s", line.substring(start));
                 if (line.substring(start).equals("0")) {
                     return "";
                 }
@@ -254,7 +254,7 @@ public class RestServer implements Runnable {
             }
         }
         final String body = stringBuilder.toString();
-        Timber.i(TAG, "Body:\r\n" + body);
+        Timber.i("Body:\r\n" + body);
         if (body.isEmpty()) {
             return "[]";
         }

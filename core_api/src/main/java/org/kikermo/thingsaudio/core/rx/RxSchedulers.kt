@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudio.core.api.rx
+package org.kikermo.thingsaudio.core.rx
 
 import io.reactivex.Scheduler
 

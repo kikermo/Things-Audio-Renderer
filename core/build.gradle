@@ -28,9 +28,13 @@ android {
 }
 
 dependencies {
-    implementation projectDependencies.coreApi
+    api projectDependencies.coreApi
 
     implementation projectDependencies.kotlin
+
+    implementation projectDependencies.dagger
+    implementation projectDependencies.daggerAndroid
+    implementation projectDependencies.daggerAndroidSupport
 
     implementation projectDependencies.rxjava
     implementation projectDependencies.rxandroid

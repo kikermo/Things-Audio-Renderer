@@ -1,6 +1,6 @@
 package org.kikermo.thingsaudioreceiver.model.net.rest
 
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.Track
 
 interface RestCallback {
 

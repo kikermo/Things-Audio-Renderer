@@ -5,8 +5,9 @@ import android.content.Intent
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import org.kikermo.thingsaudio.core.api.model.PlayState
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.Track
+import org.kikermo.thingsaudioreceiver.di.DaggerAppComponent
 import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
 import org.kikermo.thingsaudioreceiver.model.PlayerControlActions
 import org.kikermo.thingsaudioreceiver.model.ReceiverRepositoryImp
@@ -39,6 +40,13 @@ class ThingsReceiverApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        DaggerAppComponent
+            .builder()
+            .application(this)
+            .build()
+            .inject(this)
+
         startServices()
         initTimber()
     }

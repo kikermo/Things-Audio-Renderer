@@ -2,10 +2,10 @@ package org.kikermo.thingsaudio.core.rx
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.kikermo.thingsaudio.core.api.rx.RxSchedulers
+import javax.inject.Inject
 
-class RxSchedulersImpl : RxSchedulers {
-    override fun main() = AndroidSchedulers.mainThread()
+class RxSchedulersImpl @Inject constructor() : RxSchedulers {
+    override fun main() = AndroidSchedulers.mainThread()!!
 
     override fun io() = Schedulers.io()
 

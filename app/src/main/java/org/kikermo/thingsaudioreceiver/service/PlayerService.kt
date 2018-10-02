@@ -8,7 +8,7 @@ import android.os.IBinder
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudioreceiver.ThingsReceiverApplication
 import org.kikermo.thingsaudioreceiver.model.PlayerControlActions
 import org.kikermo.thingsaudioreceiver.util.Constants

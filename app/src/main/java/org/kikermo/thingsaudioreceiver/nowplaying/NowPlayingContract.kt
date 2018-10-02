@@ -2,8 +2,8 @@ package org.kikermo.thingsaudioreceiver.nowplaying
 
 import org.kikermo.thingsaudio.core.base.IPresenter
 import org.kikermo.thingsaudio.core.base.IView
-import org.kikermo.thingsaudio.core.api.model.PlayState
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.Track
 
 interface NowPlayingContract {
     interface View : IView {

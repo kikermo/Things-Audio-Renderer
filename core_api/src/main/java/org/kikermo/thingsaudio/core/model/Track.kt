@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudio.core.api.model
+package org.kikermo.thingsaudio.core.model
 
 data class Track(
     val title: String? = null,

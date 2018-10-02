@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_now_playing.*
-import org.kikermo.thingsaudio.core.api.model.PlayState
-import org.kikermo.thingsaudio.core.api.model.Track
+import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.core.base.BaseFragmentWithPresenter
 import org.kikermo.thingsaudio.core.utils.toFormatedSeconds
 import org.kikermo.thingsaudioreceiver.R
 
 class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, NowPlayingContract.Presenter>(),
     NowPlayingContract.View {
-    ]
-    override fun providePresenter() = providePresenter(context!!)
 
-    override fun provideView() = this
+//    override fun providePresenter() = providePresenter(context!!)
+//
+//    override fun provideView() = this
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =

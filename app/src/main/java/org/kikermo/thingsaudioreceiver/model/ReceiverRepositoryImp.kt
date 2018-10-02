@@ -2,9 +2,9 @@ package org.kikermo.thingsaudioreceiver.model
 
 import io.reactivex.Observable
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
-import org.kikermo.thingsaudio.core.api.model.PlayState
-import org.kikermo.thingsaudio.core.api.model.Track
-import org.kikermo.thingsaudio.core.api.rx.RxSchedulers
+import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.Track
+import org.kikermo.thingsaudio.core.rx.RxSchedulers
 
 class ReceiverRepositoryImp(private val trackUpdatesObservable: Observable<Track>,
                             private val playStateObservable: Observable<PlayState>,
