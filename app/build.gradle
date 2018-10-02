@@ -28,7 +28,6 @@ android {
 
 dependencies {
     implementation projectDependencies.core
-    implementation projectDependencies.coreApi
 
     implementation projectDependencies.kotlin
 
@@ -48,5 +47,5 @@ dependencies {
 
     implementation projectDependencies.supportAppCompat
 
-   // compileOnly projectDependencies.androidThings
+    compileOnly projectDependencies.androidThings
 }

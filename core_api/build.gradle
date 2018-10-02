@@ -1,9 +1,0 @@
-apply plugin: 'java-library'
-
-dependencies {
-    implementation projectDependencies.kotlin
-    implementation projectDependencies.rxjava
-}
-
-sourceCompatibility = "8"
-targetCompatibility = "8"

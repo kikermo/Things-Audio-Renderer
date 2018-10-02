@@ -8,7 +8,7 @@ ext.projectDependencies = [
         supportCompat          : "com.android.support:support-compat:$versions.supportLibrary",
         supportConstraintLayout: "com.android.support.constraint:constraint-layout:$versions.supportConstraint",
 
-        androidThings          : 'com.google.android.things:androidthings:$versions.androidThings',
+        androidThings          : "com.google.android.things:androidthings:$versions.androidThings",
 
         kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
         kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
@@ -29,7 +29,5 @@ ext.projectDependencies = [
         daggerAndroid          : "com.google.dagger:dagger-android:$versions.dagger",
         daggerAndroidSupport   : "com.google.dagger:dagger-android-support:$versions.dagger",
 
-        core                   : project("core"),
-        coreApi                : project("core_api")
-
+        core                   : project(":core")
 ]
