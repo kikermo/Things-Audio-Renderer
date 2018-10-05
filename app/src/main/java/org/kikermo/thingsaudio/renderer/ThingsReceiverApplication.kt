@@ -1,7 +1,11 @@
-package org.kikermo.thingsaudioreceiver
+package org.kikermo.thingsaudio.renderer
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -9,21 +13,19 @@ import org.kikermo.thingsaudio.core.model.PlayState
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudioreceiver.di.DaggerAppComponent
 import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
-import org.kikermo.thingsaudioreceiver.model.PlayerControlActions
-import org.kikermo.thingsaudioreceiver.model.ReceiverRepositoryImp
-import org.kikermo.thingsaudioreceiver.service.ControlService
-import org.kikermo.thingsaudioreceiver.service.PlayerService
+import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
+import org.kikermo.thingsaudio.renderer.model.ReceiverRepositoryImp
+import org.kikermo.thingsaudio.renderer.service.ControlService
+import org.kikermo.thingsaudio.renderer.service.PlayerService
 import timber.log.Timber
+import javax.inject.Inject
 
-class ThingsReceiverApplication : Application() {
+class ThingsReceiverApplication : Application(), HasSupportFragmentInjector {
 
     // region manual DI section
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    val trackSubject: BehaviorSubject<Track> = BehaviorSubject.create()
-    val playPositionsSubject: BehaviorSubject<Int> = BehaviorSubject.create()
-    val playState: BehaviorSubject<PlayState> = BehaviorSubject.create()
 
-    val controlSubject: PublishSubject<PlayerControlActions> = PublishSubject.create()
 
     private val rxSchedulers = RxSchedulersImpl()
 
@@ -35,6 +37,8 @@ class ThingsReceiverApplication : Application() {
     }
 
     val playerControlsObservable: Observable<PlayerControlActions> = controlSubject
+
+    override fun supportFragmentInjector() = fragmentInjector
 
     //endregion
 

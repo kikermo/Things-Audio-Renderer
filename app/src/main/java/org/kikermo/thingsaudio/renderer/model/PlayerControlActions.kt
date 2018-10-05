@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.model
+package org.kikermo.thingsaudio.renderer.model
 
 import org.kikermo.thingsaudio.core.model.Track
 

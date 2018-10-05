@@ -1,7 +1,7 @@
-package org.kikermo.thingsaudioreceiver.nowplaying
+package org.kikermo.thingsaudio.renderer.nowplaying
 
 import android.content.Context
-import org.kikermo.thingsaudioreceiver.ThingsReceiverApplication
+import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
 
 fun providePresenter(context: Context): NowPlayingContract.Presenter {
 

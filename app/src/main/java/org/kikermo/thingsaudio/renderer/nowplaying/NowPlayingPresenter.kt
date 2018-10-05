@@ -1,10 +1,12 @@
-package org.kikermo.thingsaudioreceiver.nowplaying
+package org.kikermo.thingsaudio.renderer.nowplaying
 
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.base.BasePresenter
 import timber.log.Timber
+import javax.inject.Inject
 
-class NowPlayingPresenter(private val repository: ReceiverRepository) : BasePresenter<NowPlayingContract.View>(), NowPlayingContract.Presenter {
+class NowPlayingPresenter @Inject constructor(private val repository: ReceiverRepository)
+    : BasePresenter<NowPlayingContract.View>(), NowPlayingContract.Presenter {
 
     override fun subscribe() {
         registerDisposable(subscribeToPlayPosition())

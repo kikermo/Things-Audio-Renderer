@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.model
+package org.kikermo.thingsaudio.renderer.model
 
 import io.reactivex.Observable
 import org.kikermo.thingsaudio.core.api.ReceiverRepository

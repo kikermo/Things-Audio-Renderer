@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.nowplaying
+package org.kikermo.thingsaudio.renderer.nowplaying
 
 import android.os.Bundle
 import android.view.LayoutInflater

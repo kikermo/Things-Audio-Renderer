@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.service
+package org.kikermo.thingsaudio.renderer.service
 
 import android.app.Service
 import android.content.Intent
@@ -9,9 +9,9 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudioreceiver.ThingsReceiverApplication
-import org.kikermo.thingsaudioreceiver.model.PlayerControlActions
-import org.kikermo.thingsaudioreceiver.util.Constants
+import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
+import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
+import org.kikermo.thingsaudio.renderer.util.Constants
 import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -83,8 +83,8 @@ class PlayerService : Service(), MediaPlayer.OnCompletionListener {
             .subscribe({ integer ->
                 val playPosition = integer!!
                 val posInt = Intent()
-                posInt.putExtra(Constants.BK_PLAYBACKEVENT, playPosition)
-                posInt.action = Constants.BA_PLAYBACKEVENT
+                posInt.putExtra(org.kikermo.thingsaudio.renderer.util.Constants.BK_PLAYBACKEVENT, playPosition)
+                posInt.action = org.kikermo.thingsaudio.renderer.util.Constants.BA_PLAYBACKEVENT
 
                 sendBroadcast(posInt)
                 Timber.d("pos$integer")

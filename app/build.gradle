@@ -46,6 +46,7 @@ dependencies {
     implementation projectDependencies.timber
 
     implementation projectDependencies.supportAppCompat
+    implementation projectDependencies.supportV4
 
     compileOnly projectDependencies.androidThings
 }

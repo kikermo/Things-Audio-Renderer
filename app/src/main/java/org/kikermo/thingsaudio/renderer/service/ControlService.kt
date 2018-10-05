@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.service
+package org.kikermo.thingsaudio.renderer.service
 
 import android.app.Service
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.os.IBinder
 
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudioreceiver.model.net.rest.RestCallback
-import org.kikermo.thingsaudioreceiver.model.net.rest.RestServer
-import org.kikermo.thingsaudioreceiver.util.Constants
+import org.kikermo.thingsaudio.renderer.model.net.rest.RestCallback
+import org.kikermo.thingsaudio.renderer.model.net.rest.RestServer
+import org.kikermo.thingsaudio.renderer.util.Constants
 
 import java.io.Serializable
 import java.util.ArrayList
@@ -42,25 +42,25 @@ class ControlService : Service(), RestCallback {
     }
 
     override fun skipNextReceived() {
-        sendBroadcastAction(Constants.BA_SKIP_NEXT, null)
+        sendBroadcastAction(org.kikermo.thingsaudio.renderer.util.Constants.BA_SKIP_NEXT, null)
     }
 
     override fun skipPrevReceived() {
-        sendBroadcastAction(Constants.BA_SKIP_PREV, null)
+        sendBroadcastAction(org.kikermo.thingsaudio.renderer.util.Constants.BA_SKIP_PREV, null)
     }
 
     override fun listReceived(trackList: List<Track>) {
         val bundle = Bundle()
-        bundle.putSerializable(Constants.BK_TRACKLIST, trackList as ArrayList<out Serializable>)
-        sendBroadcastAction(Constants.BA_NEW_TRACKLIST, bundle)
+        bundle.putSerializable(org.kikermo.thingsaudio.renderer.util.Constants.BK_TRACKLIST, trackList as ArrayList<out Serializable>)
+        sendBroadcastAction(org.kikermo.thingsaudio.renderer.util.Constants.BA_NEW_TRACKLIST, bundle)
     }
 
     override fun playReceived() {
-        sendBroadcastAction(Constants.BA_PLAY, null)
+        sendBroadcastAction(org.kikermo.thingsaudio.renderer.util.Constants.BA_PLAY, null)
     }
 
     override fun pauseReceived() {
-        sendBroadcastAction(Constants.BA_PAUSE, null)
+        sendBroadcastAction(org.kikermo.thingsaudio.renderer.util.Constants.BA_PAUSE, null)
     }
 
     private fun sendBroadcastAction(action: String, bundle: Bundle?) {

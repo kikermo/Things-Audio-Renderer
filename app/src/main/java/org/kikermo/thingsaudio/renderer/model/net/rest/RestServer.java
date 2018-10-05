@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.model.net.rest;
+package org.kikermo.thingsaudio.renderer.model.net.rest;
 
 import android.text.TextUtils;
 import com.google.gson.FieldNamingPolicy;
@@ -126,22 +126,22 @@ public class RestServer implements Runnable {
             byte[] response = new byte[0];
             switch (route) {
                 case "control/play":
-                    if (notNull(restCallback)) {
+                    if (Utils.notNull(restCallback)) {
                         restCallback.playReceived();
                     }
                     break;
                 case "control/pause":
-                    if (notNull(restCallback)) {
+                    if (Utils.notNull(restCallback)) {
                         restCallback.pauseReceived();
                     }
                     break;
                 case "control/skip_prev":
-                    if (notNull(restCallback)) {
+                    if (Utils.notNull(restCallback)) {
                         restCallback.skipPrevReceived();
                     }
                     break;
                 case "control/skip_next":
-                    if (notNull(restCallback)) {
+                    if (Utils.notNull(restCallback)) {
                         restCallback.playReceived();
                     }
                     break;
@@ -149,7 +149,7 @@ public class RestServer implements Runnable {
                     if (currentResponseType == POST) {
                         List<Track> trackList = gson.fromJson(body, new TypeToken<List<Track>>() {
                         }.getType());
-                        if (notNull(restCallback)) {
+                        if (Utils.notNull(restCallback)) {
                             restCallback.listReceived(trackList);
                         }
                     }

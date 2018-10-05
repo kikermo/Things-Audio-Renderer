@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.util;
+package org.kikermo.thingsaudio.renderer.util;
 
 /**
  * Created by EnriqueR on 19/02/2017.

@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.nowplaying
+package org.kikermo.thingsaudio.renderer.nowplaying
 
 import org.kikermo.thingsaudio.core.base.IPresenter
 import org.kikermo.thingsaudio.core.base.IView

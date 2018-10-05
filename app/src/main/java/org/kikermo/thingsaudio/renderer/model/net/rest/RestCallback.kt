@@ -1,4 +1,4 @@
-package org.kikermo.thingsaudioreceiver.model.net.rest
+package org.kikermo.thingsaudio.renderer.model.net.rest
 
 import org.kikermo.thingsaudio.core.model.Track
 
