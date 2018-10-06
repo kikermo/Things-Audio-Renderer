@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.IBinder
+import dagger.android.AndroidInjection
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -63,6 +64,7 @@ class PlayerService : Service(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onCreate() {
+        AndroidInjection.inject(this)
         super.onCreate()
         mediaPlayer = MediaPlayer()
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)

@@ -3,6 +3,8 @@ package org.kikermo.thingsaudio.renderer.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
 import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
@@ -21,6 +23,7 @@ class ControlService : Service(), RestCallback {
     }
 
     override fun onCreate() {
+        AndroidInjection.inject(this)
         super.onCreate()
         startRestServer()
     }
