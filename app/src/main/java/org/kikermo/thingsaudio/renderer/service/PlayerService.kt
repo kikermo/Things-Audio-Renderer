@@ -26,6 +26,8 @@ class PlayerService : Service(), MediaPlayer.OnCompletionListener {
     lateinit var trackSubject: BehaviorSubject<Track>
     @Inject
     lateinit var playerControlActionsObservable: Observable<PlayerControlActions>
+    @Inject
+    lateinit var playPositionSubject: BehaviorSubject<Int>
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -70,15 +72,7 @@ class PlayerService : Service(), MediaPlayer.OnCompletionListener {
         compositeDisposable.add(Observable.interval(1, TimeUnit.SECONDS)
             .map { mediaPlayer.currentPosition / 1000 }
             .distinctUntilChanged()
-            .subscribe({ integer ->
-                val playPosition = integer!!
-                val posInt = Intent()
-                posInt.putExtra(org.kikermo.thingsaudio.renderer.util.Constants.BK_PLAYBACKEVENT, playPosition)
-                posInt.action = org.kikermo.thingsaudio.renderer.util.Constants.BA_PLAYBACKEVENT
-
-                sendBroadcast(posInt)
-                Timber.d("pos$integer")
-            }, Timber::e))
+            .subscribe(playPositionSubject::onNext, Timber::e))
     }
 
     override fun onDestroy() {

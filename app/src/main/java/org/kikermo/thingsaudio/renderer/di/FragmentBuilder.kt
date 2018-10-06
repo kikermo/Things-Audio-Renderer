@@ -6,13 +6,13 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingComponent
 import org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingFragment
+import org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingSubcomponent
 
-@Module
+@Module(subcomponents = [NowPlayingSubcomponent::class])
 abstract class FragmentBuilder {
     @Binds
     @IntoMap
     @FragmentKey(NowPlayingFragment::class)
-    internal abstract fun bindNowPlayingFragment(builder: NowPlayingComponent.Builder): AndroidInjector.Factory<out Fragment>
+    abstract fun bindNowPlayingFragment(builder: NowPlayingSubcomponent.Builder): AndroidInjector.Factory<out Fragment>
 }
