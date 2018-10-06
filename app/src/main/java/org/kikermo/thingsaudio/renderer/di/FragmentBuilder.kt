@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
+import org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingComponent
 import org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingFragment
 
 @Module

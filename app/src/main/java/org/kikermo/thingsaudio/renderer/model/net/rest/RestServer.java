@@ -17,8 +17,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 
-import static org.kikermo.thingsaudioreceiver.util.Utils.notNull;
-
 public class RestServer implements Runnable {
 
     private static final String TAG = "RestServer";
@@ -126,22 +124,22 @@ public class RestServer implements Runnable {
             byte[] response = new byte[0];
             switch (route) {
                 case "control/play":
-                    if (Utils.notNull(restCallback)) {
+                    if (notNull(restCallback)) {
                         restCallback.playReceived();
                     }
                     break;
                 case "control/pause":
-                    if (Utils.notNull(restCallback)) {
+                    if (notNull(restCallback)) {
                         restCallback.pauseReceived();
                     }
                     break;
                 case "control/skip_prev":
-                    if (Utils.notNull(restCallback)) {
+                    if (notNull(restCallback)) {
                         restCallback.skipPrevReceived();
                     }
                     break;
                 case "control/skip_next":
-                    if (Utils.notNull(restCallback)) {
+                    if (notNull(restCallback)) {
                         restCallback.playReceived();
                     }
                     break;
@@ -149,7 +147,7 @@ public class RestServer implements Runnable {
                     if (currentResponseType == POST) {
                         List<Track> trackList = gson.fromJson(body, new TypeToken<List<Track>>() {
                         }.getType());
-                        if (Utils.notNull(restCallback)) {
+                        if (notNull(restCallback)) {
                             restCallback.listReceived(trackList);
                         }
                     }
@@ -260,5 +258,9 @@ public class RestServer implements Runnable {
         }
         return body;
 
+    }
+
+    private boolean notNull(Object object) {
+        return object != null;
     }
 }

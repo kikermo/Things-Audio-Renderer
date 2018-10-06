@@ -76,6 +76,6 @@ abstract class AppModule {
 
     @Provides
     @Singleton
-    fun providePlayerControlActions(playerControlActionsSubject: PublishSubject<PlayerControlActions>)
+    fun providePlayerControlActionsObservable(playerControlActionsSubject: PublishSubject<PlayerControlActions>)
         : Observable<PlayerControlActions> = playerControlActionsSubject
 }

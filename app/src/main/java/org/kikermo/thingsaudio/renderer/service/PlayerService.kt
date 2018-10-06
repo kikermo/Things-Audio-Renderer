@@ -9,21 +9,23 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
 import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
-import org.kikermo.thingsaudio.renderer.util.Constants
 import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class PlayerService : Service(), MediaPlayer.OnCompletionListener {
     lateinit var mediaPlayer: MediaPlayer
     private val trackList: MutableList<Track> = mutableListOf()
     private var trackPointer: Int = 0
-    private val repeatList: Boolean
-    private val repeatSong: Boolean
+    private val repeatList: Boolean = false
+    private val repeatSong: Boolean = false
 
+    @Inject
     lateinit var trackSubject: BehaviorSubject<Track>
+    @Inject
+    lateinit var playerControlActionsObservable: Observable<PlayerControlActions>
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -58,25 +60,13 @@ class PlayerService : Service(), MediaPlayer.OnCompletionListener {
         }
     }
 
-    init {
-        trackPointer = 0
-        repeatList = false
-        repeatSong = false
-    }
-
     override fun onCreate() {
         super.onCreate()
         mediaPlayer = MediaPlayer()
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
         mediaPlayer.setOnCompletionListener(this)
 
-        val app = (application as ThingsReceiverApplication) //TODO add dagger
-
-        val playerControlObservable = app.playerControlsObservable
-        compositeDisposable.add(playerControlObservable.subscribe(this::processAction, Timber::e))
-
-        trackSubject = app.trackSubject
-
+        compositeDisposable.add(playerControlActionsObservable.subscribe(this::processAction, Timber::e))
         compositeDisposable.add(Observable.interval(1, TimeUnit.SECONDS)
             .map { mediaPlayer.currentPosition / 1000 }
             .distinctUntilChanged()
