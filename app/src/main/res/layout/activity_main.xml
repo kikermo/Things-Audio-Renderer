@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.kikermo.thingsaudioreceiver.MainActivity">
+    tools:context="org.kikermo.thingsaudioreceiver.org.kikermo.thingsaudio.renderer.MainActivity">
 
 
     <FrameLayout

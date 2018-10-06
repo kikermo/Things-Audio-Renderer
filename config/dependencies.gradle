@@ -8,7 +8,9 @@ ext.projectDependencies = [
         supportCompat          : "com.android.support:support-compat:$versions.supportLibrary",
         supportConstraintLayout: "com.android.support.constraint:constraint-layout:$versions.supportConstraint",
 
-        kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$versions.kotlin",
+        androidThings          : "com.google.android.things:androidthings:$versions.androidThings",
+
+        kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
         kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
 
         rxjava                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
@@ -16,5 +18,16 @@ ext.projectDependencies = [
 
         timber                 : "com.jakewharton.timber:timber:$versions.timber",
         gson                   : "com.google.code.gson:gson:$versions.gson",
-        picasso                : "com.squareup.picasso:picasso:$versions.picasso"
+        picasso                : "com.squareup.picasso:picasso:$versions.picasso",
+
+        ktor                   : "io.ktor:ktor:$versions.ktor",
+        ktorNetty              : "io.ktor:ktor-server-netty:$versions.ktor",
+
+        dagger                 : "com.google.dagger:dagger:$versions.dagger",
+        daggerAnnotation       : "com.google.dagger:dagger-compiler:$versions.dagger",
+
+        daggerAndroid          : "com.google.dagger:dagger-android:$versions.dagger",
+        daggerAndroidSupport   : "com.google.dagger:dagger-android-support:$versions.dagger",
+
+        core                   : project(":core")
 ]

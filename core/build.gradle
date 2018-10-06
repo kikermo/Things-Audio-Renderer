@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion "$versions.androidBuildTools"
+
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    api projectDependencies.kotlin
+
+    api projectDependencies.dagger
+    api projectDependencies.daggerAndroid
+    api projectDependencies.daggerAndroidSupport
+
+    api projectDependencies.rxjava
+    api projectDependencies.rxandroid
+
+    api projectDependencies.timber
+
+    api projectDependencies.supportAppCompat
+    api projectDependencies.supportV4
+}

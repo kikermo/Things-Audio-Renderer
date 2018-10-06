@@ -1,20 +1,21 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.compileSdk
-    buildToolsVersion "27.0.3" //$versions.androidBuildTools"
+    buildToolsVersion "$versions.androidBuildTools"
     defaultConfig {
         applicationId "org.kikermo.thingsaudioreceiver"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,12 +27,26 @@ android {
 }
 
 dependencies {
+    implementation projectDependencies.core
+
+    implementation projectDependencies.kotlin
+
+    kapt projectDependencies.daggerAnnotation
+
+    implementation projectDependencies.dagger
+    implementation projectDependencies.daggerAndroid
+    implementation projectDependencies.daggerAndroidSupport
+
     implementation projectDependencies.rxjava
     implementation projectDependencies.rxandroid
 
     implementation projectDependencies.gson
 
     implementation projectDependencies.picasso
+    implementation projectDependencies.timber
 
     implementation projectDependencies.supportAppCompat
+    implementation projectDependencies.supportV4
+
+    compileOnly projectDependencies.androidThings
 }
