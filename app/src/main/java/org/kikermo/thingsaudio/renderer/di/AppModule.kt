@@ -12,12 +12,14 @@ import org.kikermo.thingsaudio.core.model.PlayState
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.core.rx.RxSchedulers
 import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
+import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
 import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
 import org.kikermo.thingsaudio.renderer.model.ReceiverRepositoryImp
 import javax.inject.Singleton
 
 @Module
-abstract class AppModule {
+class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
+    @Provides @Singleton fun provideApp() = thingsReceiverApplication
 
     @Provides
     @Singleton

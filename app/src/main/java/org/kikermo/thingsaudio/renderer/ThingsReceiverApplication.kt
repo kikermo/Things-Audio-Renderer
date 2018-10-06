@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasServiceInjector
 import dagger.android.support.HasSupportFragmentInjector
+import org.kikermo.thingsaudio.renderer.di.AppModule
 import org.kikermo.thingsaudio.renderer.service.ControlService
 import org.kikermo.thingsaudio.renderer.service.PlayerService
 import org.kikermo.thingsaudioreceiver.di.DaggerAppComponent
@@ -34,6 +35,7 @@ class ThingsReceiverApplication : Application(), HasSupportFragmentInjector, Has
         DaggerAppComponent
             .builder()
             .application(this)
+            .appModule(AppModule(this))
             .build()
             .inject(this)
 
