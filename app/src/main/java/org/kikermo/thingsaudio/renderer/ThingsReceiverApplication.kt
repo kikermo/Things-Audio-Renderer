@@ -8,9 +8,9 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasServiceInjector
 import dagger.android.support.HasSupportFragmentInjector
 import org.kikermo.thingsaudio.renderer.di.AppModule
+import org.kikermo.thingsaudio.renderer.di.DaggerAppComponent
 import org.kikermo.thingsaudio.renderer.service.ControlService
 import org.kikermo.thingsaudio.renderer.service.PlayerService
-import org.kikermo.thingsaudioreceiver.di.DaggerAppComponent
 import timber.log.Timber
 import javax.inject.Inject
 
