@@ -16,10 +16,10 @@ abstract class ServiceBuilder {
     @Binds
     @IntoMap
     @ServiceKey(PlayerService::class)
-    internal abstract fun bindPlayerService(builder: PlayerServiceSubcomponent.Builder): AndroidInjector.Factory<Service>
+    internal abstract fun bindPlayerService(builder: PlayerServiceSubcomponent.Builder): AndroidInjector.Factory<out Service>
 
     @Binds
     @IntoMap
     @ServiceKey(ControlService::class)
-    internal abstract fun bindControlService(builder: ControlServiceSubcomponent.Builder): AndroidInjector.Factory<Service>
+    internal abstract fun bindControlService(builder: ControlServiceSubcomponent.Builder): AndroidInjector.Factory<out Service>
 }

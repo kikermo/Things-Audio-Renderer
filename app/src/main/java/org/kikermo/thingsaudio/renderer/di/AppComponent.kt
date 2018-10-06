@@ -8,7 +8,8 @@ import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
 
 @Component(modules = [AndroidInjectionModule::class,
     AppModule::class,
-    FragmentBuilder::class])
+    FragmentBuilder::class,
+    ServiceBuilder::class])
 interface AppComponent {
 
     @Component.Builder

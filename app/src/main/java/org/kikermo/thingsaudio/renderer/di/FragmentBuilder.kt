@@ -14,5 +14,5 @@ abstract class FragmentBuilder {
     @Binds
     @IntoMap
     @FragmentKey(NowPlayingFragment::class)
-    internal abstract fun bindNowPlayingFragment(builder: NowPlayingComponent.Builder): AndroidInjector.Factory<Fragment>
+    internal abstract fun bindNowPlayingFragment(builder: NowPlayingComponent.Builder): AndroidInjector.Factory<out Fragment>
 }
