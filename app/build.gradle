@@ -48,5 +48,9 @@ dependencies {
     implementation projectDependencies.supportAppCompat
     implementation projectDependencies.supportV4
 
+    implementation projectDependencies.ktor
+    implementation projectDependencies.ktorGson
+    implementation projectDependencies.ktorNetty
+
     compileOnly projectDependencies.androidThings
 }
