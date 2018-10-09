@@ -8,6 +8,7 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
+
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ControlService : Service(), RestCallback {
-    private lateinit var restServer : NettyApplicationEngine
+    private lateinit var restServer: NettyApplicationEngine
 
     @Inject
     lateinit var playerControlActionsSubject: PublishSubject<PlayerControlActions>

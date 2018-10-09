@@ -24,12 +24,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/INDEX.LIST'
+    }
 }
 
 dependencies {
     implementation projectDependencies.core
 
     implementation projectDependencies.kotlin
+    implementation projectDependencies.kotlinCoroutines
 
     kapt projectDependencies.daggerAnnotation
 
@@ -48,7 +54,6 @@ dependencies {
     implementation projectDependencies.supportAppCompat
     implementation projectDependencies.supportV4
 
-    implementation projectDependencies.ktor
     implementation projectDependencies.ktorGson
     implementation projectDependencies.ktorNetty
 
