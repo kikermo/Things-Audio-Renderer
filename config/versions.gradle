@@ -9,7 +9,7 @@ ext.versions = [
         rxandroid        : '2.0.2',
 
         supportLibrary   : '27.1.0',
-        supportConstraint: '1.0.2',
+        supportConstraint: '1.1.2',
 
         androidThings    : '1.0',
 
@@ -23,7 +23,7 @@ ext.versions = [
 
         // Basic Config
         compileSdk       : 27,
-        minSdk           : 21,
+        minSdk           : 26,
         targetSdk        : 27,
         androidBuildTools: '28.0.2'
 ]

@@ -40,10 +40,8 @@ class ThingsReceiverApplication : Application(), HasSupportFragmentInjector, Has
     }
 
     private fun startServices() {
-        var intent = Intent(this, PlayerService::class.java)
-        startService(intent)
-        intent = Intent(this, ControlService::class.java)
-        startService(intent)
+        startService(Intent(this, PlayerService::class.java))
+        startService( Intent(this, ControlService::class.java))
     }
 
     private fun initTimber() {

@@ -53,6 +53,7 @@ dependencies {
 
     implementation projectDependencies.supportAppCompat
     implementation projectDependencies.supportV4
+    implementation projectDependencies.supportConstraintLayout
 
     implementation projectDependencies.ktorGson
     implementation projectDependencies.ktorNetty

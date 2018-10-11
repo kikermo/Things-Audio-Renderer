@@ -4,14 +4,13 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.kikermo.thingsaudioreceiver.org.kikermo.thingsaudio.renderer.MainActivity">
-
+    tools:context="org.kikermo.thingsaudio.renderer.MainActivity">
 
     <fragment
         class="org.kikermo.thingsaudio.renderer.nowplaying.NowPlayingFragment"
         android:background="@android:color/black"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"/>
 </FrameLayout>
