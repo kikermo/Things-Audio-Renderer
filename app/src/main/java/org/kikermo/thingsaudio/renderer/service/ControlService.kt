@@ -4,16 +4,33 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.CallLogging
+import io.ktor.features.Compression
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.gson.gson
+
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
+import io.ktor.response.respond
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.netty.NettyApplicationEngine
 import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
 import org.kikermo.thingsaudio.renderer.model.net.rest.RestCallback
-import org.kikermo.thingsaudio.renderer.model.net.rest.RestServer
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ControlService : Service(), RestCallback {
-    private lateinit var restServer: RestServer
+    private lateinit var restServer: NettyApplicationEngine
 
     @Inject
     lateinit var playerControlActionsSubject: PublishSubject<PlayerControlActions>
@@ -34,13 +51,54 @@ class ControlService : Service(), RestCallback {
     }
 
     private fun startRestServer() {
-        restServer = RestServer(8080)
-        restServer.setRestCallback(this)
+        restServer = createNettyApplication(8080)
         restServer.start()
     }
 
     private fun stopRestServer() {
-        restServer.stop()
+        restServer.stop(1, 1, TimeUnit.SECONDS)
+    }
+
+    private fun createNettyApplication(port: Int) = embeddedServer(Netty, port) {
+        install(DefaultHeaders)
+        install(Compression)
+        install(CallLogging)
+        install(ContentNegotiation) {
+            gson {
+                setPrettyPrinting()
+            }
+        }
+        routing {
+            get("/control/play") {
+                playReceived()
+                call.respond(HttpStatusCode.OK)
+            }
+            get("/control/pause") {
+                pauseReceived()
+                call.respond(HttpStatusCode.OK)
+            }
+            get("/control/skip_prev") {
+                skipPrevReceived()
+                call.respond(HttpStatusCode.OK)
+            }
+            get("/control/skip_next") {
+                playReceived()
+                call.respond(HttpStatusCode.Created)
+            }
+            post("/songs") {
+                val trackList = call.receive<List<Track>>()
+                listReceived(trackList)
+                call.respond(HttpStatusCode.Accepted, trackList)
+            }
+            post("/song") {
+                val track = call.receive<Track>()
+                listReceived(listOf(track))
+                call.respond(HttpStatusCode.Accepted, track)
+            }
+            get("/songs") {
+                call.respond(HttpStatusCode.Accepted)
+            }
+        }
     }
 
     override fun skipNextReceived() = playerControlActionsSubject.onNext(PlayerControlActions.SkipNext)

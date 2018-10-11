@@ -12,6 +12,7 @@ ext.projectDependencies = [
 
         kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
         kotlinPlugin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        kotlinCoroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlinCoroutines",
 
         rxjava                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
         rxandroid              : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
@@ -22,6 +23,7 @@ ext.projectDependencies = [
 
         ktor                   : "io.ktor:ktor:$versions.ktor",
         ktorNetty              : "io.ktor:ktor-server-netty:$versions.ktor",
+        ktorGson               : "io.ktor:ktor-gson:$versions.ktor",
 
         dagger                 : "com.google.dagger:dagger:$versions.dagger",
         daggerAnnotation       : "com.google.dagger:dagger-compiler:$versions.dagger",

@@ -15,10 +15,6 @@ import org.kikermo.thingsaudioreceiver.R
 class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, NowPlayingContract.Presenter>(),
     NowPlayingContract.View {
 
-//    override fun providePresenter() = providePresenter(context!!)
-//
-//    override fun provideView() = this
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_now_playing, container, false)

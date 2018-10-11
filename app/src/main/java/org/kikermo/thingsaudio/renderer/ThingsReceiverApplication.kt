@@ -16,16 +16,12 @@ import javax.inject.Inject
 
 class ThingsReceiverApplication : Application(), HasSupportFragmentInjector, HasServiceInjector {
 
-    // region manual DI section
-    @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun supportFragmentInjector() = fragmentInjector
-
-    @Inject
-    lateinit var serviceInjector: DispatchingAndroidInjector<Service>
+    // region
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject lateinit var serviceInjector: DispatchingAndroidInjector<Service>
 
     override fun serviceInjector() = serviceInjector
+    override fun supportFragmentInjector() = fragmentInjector
 
     //endregion
 
@@ -44,10 +40,8 @@ class ThingsReceiverApplication : Application(), HasSupportFragmentInjector, Has
     }
 
     private fun startServices() {
-        var intent = Intent(this, PlayerService::class.java)
-        startService(intent)
-        intent = Intent(this, ControlService::class.java)
-        startService(intent)
+        startService(Intent(this, PlayerService::class.java))
+        startService( Intent(this, ControlService::class.java))
     }
 
     private fun initTimber() {
