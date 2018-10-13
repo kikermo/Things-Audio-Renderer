@@ -9,17 +9,20 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.RepeatMode
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.core.rx.RxSchedulers
 import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
 import org.kikermo.thingsaudio.renderer.ThingsReceiverApplication
-import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
-import org.kikermo.thingsaudio.renderer.model.ReceiverRepositoryImp
+import org.kikermo.thingsaudio.renderer.api.PlayerControlActions
+import org.kikermo.thingsaudio.renderer.api.ReceiverRepositoryImp
 import javax.inject.Singleton
 
 @Module
 class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
-    @Provides @Singleton fun provideApp() = thingsReceiverApplication
+    @Provides
+    @Singleton
+    fun provideApp() = thingsReceiverApplication
 
     @Provides
     @Singleton
@@ -80,4 +83,22 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
     @Singleton
     fun providePlayerControlActionsObservable(playerControlActionsSubject: PublishSubject<PlayerControlActions>)
         : Observable<PlayerControlActions> = playerControlActionsSubject
+
+    @Provides
+    @Singleton
+    fun provideRepeatModeBehaviourSubject(): BehaviorSubject<RepeatMode> = BehaviorSubject.createDefault(RepeatMode.DISABLED)
+
+    @Provides
+    @Singleton
+    fun provideRepeatModeObservable(repeateModeBehaviorSubject: BehaviorSubject<RepeatMode>): Observable<RepeatMode> =
+        repeateModeBehaviorSubject
+
+    @Provides
+    @Singleton
+    fun provideTrackListBehaviourSubject(): BehaviorSubject<List<Track>> = BehaviorSubject.createDefault(listOf())
+
+    @Provides
+    @Singleton
+    fun provideTrackListObservable(trackListBehaviourSubject: BehaviorSubject<List<Track>>): Observable<List<Track>> =
+        trackListBehaviourSubject
 }
