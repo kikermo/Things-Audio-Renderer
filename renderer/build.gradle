@@ -7,7 +7,7 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion "$versions.androidBuildTools"
     defaultConfig {
-        applicationId "org.kikermo.thingsaudio.control"
+        applicationId "org.kikermo.thingsaudio.renderer"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 1
@@ -25,12 +25,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/INDEX.LIST'
+    }
 }
 
 dependencies {
     implementation projectDependencies.core
 
     implementation projectDependencies.kotlin
+    implementation projectDependencies.kotlinCoroutines
 
     kapt projectDependencies.daggerAnnotation
 
@@ -50,4 +55,9 @@ dependencies {
     implementation projectDependencies.supportV4
     implementation projectDependencies.supportConstraintLayout
 
+    implementation projectDependencies.ktorGson
+    implementation projectDependencies.ktorNetty
+    implementation projectDependencies.ktorWebsockets
+
+    compileOnly projectDependencies.androidThings
 }

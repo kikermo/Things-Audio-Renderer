@@ -1,12 +1,5 @@
 <resources>
 
 
-    <dimen name="margin_small">4dp</dimen>
-    <dimen name="margin_medium">8dp</dimen>
-    <dimen name="margin_medium_big">12dp</dimen>
-
-
-    <dimen name="size_album_art">170dp</dimen>
-    <dimen name="size_progress_thickness">10dp</dimen>
 </resources>
 

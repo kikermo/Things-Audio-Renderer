@@ -24,6 +24,7 @@ ext.projectDependencies = [
         ktor                   : "io.ktor:ktor:$versions.ktor",
         ktorNetty              : "io.ktor:ktor-server-netty:$versions.ktor",
         ktorGson               : "io.ktor:ktor-gson:$versions.ktor",
+        ktorWebsockets         : "io.ktor:ktor-websockets:$versions.ktor",
 
         dagger                 : "com.google.dagger:dagger:$versions.dagger",
         daggerAnnotation       : "com.google.dagger:dagger-compiler:$versions.dagger",
