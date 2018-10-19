@@ -2,9 +2,11 @@ package org.kikermo.thingsaudio.renderer.api
 
 import io.reactivex.Completable.fromCallable
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.RepeatMode
 import org.kikermo.thingsaudio.core.model.Track
 import org.kikermo.thingsaudio.core.rx.RxSchedulers
 import javax.inject.Inject
@@ -13,9 +15,14 @@ class ReceiverRepositoryImp @Inject constructor(
     private val trackUpdatesObservable: Observable<Track>,
     private val playStateObservable: Observable<PlayState>,
     private val playPositionObservable: Observable<Int>,
-    private var playerControlActionsSubject: PublishSubject<PlayerControlActions>,
+    private val playerControlActionsSubject: PublishSubject<PlayerControlActions>,
+    private val repeatModeBehaviourSubject: BehaviorSubject<RepeatMode>,
     private val rxSchedulers: RxSchedulers
 ) : ReceiverRepository {
+    override fun setRepeatMode(repeatMode: RepeatMode) = fromCallable {
+        repeatModeBehaviourSubject.onNext(repeatMode)
+    }
+
     override fun sendPauseCommand() = fromCallable {
         playerControlActionsSubject.onNext(PlayerControlActions.Pause)
     }

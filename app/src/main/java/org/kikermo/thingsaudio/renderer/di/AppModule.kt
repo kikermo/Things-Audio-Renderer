@@ -42,12 +42,14 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
                            playPositionsObservable: Observable<Int>,
                            playStateObservable: Observable<PlayState>,
                            playerControlActionsSubject: PublishSubject<PlayerControlActions>,
+                           repeatModeBehaviourSubject: BehaviorSubject<RepeatMode>,
                            rxSchedulers: RxSchedulers
     ): ReceiverRepository {
         return ReceiverRepositoryImp(trackUpdatesObservable = trackUpdatesObservable,
             playPositionObservable = playPositionsObservable,
             playStateObservable = playStateObservable,
             playerControlActionsSubject = playerControlActionsSubject,
+            repeatModeBehaviourSubject = repeatModeBehaviourSubject,
             rxSchedulers = rxSchedulers)
     }
 

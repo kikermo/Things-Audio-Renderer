@@ -3,6 +3,7 @@ package org.kikermo.thingsaudio.core.api
 import io.reactivex.Completable
 import io.reactivex.Observable
 import org.kikermo.thingsaudio.core.model.PlayState
+import org.kikermo.thingsaudio.core.model.RepeatMode
 import org.kikermo.thingsaudio.core.model.Track
 
 interface ReceiverRepository {
@@ -30,4 +31,6 @@ interface ReceiverRepository {
     fun clearTrackList(): Completable
 
     fun addTrackList(trackList: List<Track>): Completable
+
+    fun setRepeatMode(repeatMode: RepeatMode): Completable
 }
