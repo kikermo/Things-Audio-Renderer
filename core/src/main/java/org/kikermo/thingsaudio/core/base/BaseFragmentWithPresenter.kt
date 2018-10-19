@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment
 import javax.inject.Inject
 import dagger.android.support.AndroidSupportInjection
 
-
-
 abstract class BaseFragmentWithPresenter<V : IView, P : IPresenter<V>> : Fragment(), IView {
 
     @Inject

@@ -1,8 +1,5 @@
 package org.kikermo.thingsaudio.renderer.service
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
 import dagger.android.AndroidInjection
 import io.ktor.application.call
 import io.ktor.application.install
@@ -11,7 +8,6 @@ import io.ktor.features.Compression
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
-
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -21,23 +17,19 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.Observable
+import org.kikermo.thingsaudio.core.api.ReceiverRepository
+import org.kikermo.thingsaudio.core.base.BaseService
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudio.renderer.model.PlayerControlActions
-import org.kikermo.thingsaudio.renderer.model.net.rest.RestCallback
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ControlService : Service(), RestCallback {
+class ControlService : BaseService() {
     private lateinit var restServer: NettyApplicationEngine
 
-    @Inject
-    lateinit var playerControlActionsSubject: PublishSubject<PlayerControlActions>
-
-    override fun onBind(intent: Intent): IBinder? {
-        throw UnsupportedOperationException("Not yet implemented")
-    }
+    @Inject lateinit var trackListObservable: Observable<List<Track>>
+    @Inject lateinit var receiverRepository: ReceiverRepository
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -77,13 +69,17 @@ class ControlService : Service(), RestCallback {
                 pauseReceived()
                 call.respond(HttpStatusCode.OK)
             }
+            get("/control/stop") {
+                stopReceived()
+                call.respond(HttpStatusCode.OK)
+            }
             get("/control/skip_prev") {
                 skipPrevReceived()
                 call.respond(HttpStatusCode.OK)
             }
             get("/control/skip_next") {
-                playReceived()
-                call.respond(HttpStatusCode.Created)
+                skipNextReceived()
+                call.respond(HttpStatusCode.OK)
             }
             post("/songs") {
                 val trackList = call.receive<List<Track>>()
@@ -96,19 +92,22 @@ class ControlService : Service(), RestCallback {
                 call.respond(HttpStatusCode.Accepted, track)
             }
             get("/songs") {
-                call.respond(HttpStatusCode.Accepted)
+                val trackList = trackListObservable.blockingLast()
+                call.respond(HttpStatusCode.Accepted, trackList)
             }
         }
     }
 
-    override fun skipNextReceived() = playerControlActionsSubject.onNext(PlayerControlActions.SkipNext)
+    fun skipNextReceived() = registerDisposable(receiverRepository.sendSkipNextCommand().subscribe({}, Timber::e))
 
-    override fun skipPrevReceived() = playerControlActionsSubject.onNext(PlayerControlActions.SkipPrevious)
+    fun skipPrevReceived() = registerDisposable(receiverRepository.sendSkipPreviousCommand().subscribe({}, Timber::e))
 
-    override fun listReceived(trackList: List<Track>) =
-        playerControlActionsSubject.onNext(PlayerControlActions.AddTrackList(trackList))
+    fun listReceived(trackList: List<Track>) =
+        registerDisposable(receiverRepository.addTrackList(trackList).subscribe({}, Timber::e))
 
-    override fun playReceived() = playerControlActionsSubject.onNext(PlayerControlActions.Play)
+    fun playReceived() = registerDisposable(receiverRepository.sendPlayCommand().subscribe({}, Timber::e))
 
-    override fun pauseReceived() = playerControlActionsSubject.onNext(PlayerControlActions.Pause)
+    fun pauseReceived() = registerDisposable(receiverRepository.sendPauseCommand().subscribe({}, Timber::e))
+
+    fun stopReceived() = registerDisposable(receiverRepository.sendStopCommand().subscribe({}, Timber::e))
 }

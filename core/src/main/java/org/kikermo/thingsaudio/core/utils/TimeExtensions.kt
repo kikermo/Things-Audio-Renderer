@@ -1,6 +1,6 @@
 package org.kikermo.thingsaudio.core.utils
 
-fun Int.toFormatedSeconds(): String {
+fun Int.toFormattedSeconds(): String {
     val seconds = this
     val remSeconds = seconds % 60
     var min = seconds / 60
