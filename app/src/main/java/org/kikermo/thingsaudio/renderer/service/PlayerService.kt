@@ -1,9 +1,7 @@
 package org.kikermo.thingsaudio.renderer.service
 
-import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.os.IBinder
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import org.kikermo.thingsaudio.core.base.BaseService
@@ -24,6 +22,7 @@ class PlayerService : BaseService(), MediaPlayer.OnCompletionListener {
     @Inject lateinit var playerControlActionsObservable: Observable<PlayerControlActions>
     @Inject lateinit var playPositionSubject: BehaviorSubject<Int>
     @Inject lateinit var repeatModeObservable: Observable<RepeatMode>
+    @Inject lateinit var trackListBehaviorSubject: BehaviorSubject<List<Track>>
 
     private fun processAction(playerControlActions: PlayerControlActions) {
         Timber.d("Action Received")
@@ -38,7 +37,7 @@ class PlayerService : BaseService(), MediaPlayer.OnCompletionListener {
                 trackPointer--
                 playCurrentSong()
             }
-            is PlayerControlActions.AddSong -> {
+            is PlayerControlActions.AddTrack -> {
                 Timber.d("New song")
                 trackList.add(playerControlActions.track)
                 if (!mediaPlayer.isPlaying) {
@@ -50,6 +49,7 @@ class PlayerService : BaseService(), MediaPlayer.OnCompletionListener {
                 mediaPlayer.stop()
                 trackList.clear()
                 trackList.addAll(playerControlActions.trackList)
+                trackListBehaviorSubject.onNext(trackList)
                 trackPointer = 0
                 playCurrentSong()
             }

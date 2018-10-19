@@ -41,11 +41,13 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
     fun providesRepository(trackUpdatesObservable: Observable<Track>,
                            playPositionsObservable: Observable<Int>,
                            playStateObservable: Observable<PlayState>,
+                           playerControlActionsSubject: PublishSubject<PlayerControlActions>,
                            rxSchedulers: RxSchedulers
     ): ReceiverRepository {
         return ReceiverRepositoryImp(trackUpdatesObservable = trackUpdatesObservable,
             playPositionObservable = playPositionsObservable,
             playStateObservable = playStateObservable,
+            playerControlActionsSubject = playerControlActionsSubject,
             rxSchedulers = rxSchedulers)
     }
 
@@ -86,19 +88,19 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
 
     @Provides
     @Singleton
-    fun provideRepeatModeBehaviourSubject(): BehaviorSubject<RepeatMode> = BehaviorSubject.createDefault(RepeatMode.DISABLED)
-
-    @Provides
-    @Singleton
-    fun provideRepeatModeObservable(repeateModeBehaviorSubject: BehaviorSubject<RepeatMode>): Observable<RepeatMode> =
-        repeateModeBehaviorSubject
-
-    @Provides
-    @Singleton
     fun provideTrackListBehaviourSubject(): BehaviorSubject<List<Track>> = BehaviorSubject.createDefault(listOf())
 
     @Provides
     @Singleton
     fun provideTrackListObservable(trackListBehaviourSubject: BehaviorSubject<List<Track>>): Observable<List<Track>> =
         trackListBehaviourSubject
+
+    @Provides
+    @Singleton
+    fun provideRepeatModeObservable(repeatModeBehaviourSubject: BehaviorSubject<RepeatMode>): Observable<RepeatMode> =
+        repeatModeBehaviourSubject
+
+    @Provides
+    @Singleton
+    fun providesRepeatModeBehaviourSubject(): BehaviorSubject<RepeatMode> = BehaviorSubject.createDefault(RepeatMode.DISABLED)
 }

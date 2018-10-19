@@ -18,18 +18,18 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.base.BaseService
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudio.renderer.api.PlayerControlActions
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ControlService : BaseService() {
     private lateinit var restServer: NettyApplicationEngine
 
-    @Inject lateinit var playerControlActionsSubject: PublishSubject<PlayerControlActions>
     @Inject lateinit var trackListObservable: Observable<List<Track>>
+    @Inject lateinit var receiverRepository: ReceiverRepository
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -69,6 +69,10 @@ class ControlService : BaseService() {
                 pauseReceived()
                 call.respond(HttpStatusCode.OK)
             }
+            get("/control/stop") {
+                stopReceived()
+                call.respond(HttpStatusCode.OK)
+            }
             get("/control/skip_prev") {
                 skipPrevReceived()
                 call.respond(HttpStatusCode.OK)
@@ -94,14 +98,16 @@ class ControlService : BaseService() {
         }
     }
 
-    fun skipNextReceived() = playerControlActionsSubject.onNext(PlayerControlActions.SkipNext)
+    fun skipNextReceived() = registerDisposable(receiverRepository.sendSkipNextCommand().subscribe({}, Timber::e))
 
-    fun skipPrevReceived() = playerControlActionsSubject.onNext(PlayerControlActions.SkipPrevious)
+    fun skipPrevReceived() = registerDisposable(receiverRepository.sendSkipPreviousCommand().subscribe({}, Timber::e))
 
     fun listReceived(trackList: List<Track>) =
-        playerControlActionsSubject.onNext(PlayerControlActions.AddTrackList(trackList))
+        registerDisposable(receiverRepository.addTrackList(trackList).subscribe({}, Timber::e))
 
-    fun playReceived() = playerControlActionsSubject.onNext(PlayerControlActions.Play)
+    fun playReceived() = registerDisposable(receiverRepository.sendPlayCommand().subscribe({}, Timber::e))
 
-    fun pauseReceived() = playerControlActionsSubject.onNext(PlayerControlActions.Pause)
+    fun pauseReceived() = registerDisposable(receiverRepository.sendPauseCommand().subscribe({}, Timber::e))
+
+    fun stopReceived() = registerDisposable(receiverRepository.sendStopCommand().subscribe({}, Timber::e))
 }

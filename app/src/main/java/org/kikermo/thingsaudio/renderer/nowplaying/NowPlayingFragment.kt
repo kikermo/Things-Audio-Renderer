@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_now_playing.*
+import org.kikermo.thingsaudio.core.base.BaseFragmentWithPresenter
 import org.kikermo.thingsaudio.core.model.PlayState
 import org.kikermo.thingsaudio.core.model.Track
-import org.kikermo.thingsaudio.core.base.BaseFragmentWithPresenter
-import org.kikermo.thingsaudio.core.utils.toFormatedSeconds
+import org.kikermo.thingsaudio.core.utils.toFormattedSeconds
 import org.kikermo.thingsaudioreceiver.R
 
 class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, NowPlayingContract.Presenter>(),
@@ -24,7 +24,7 @@ class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, No
         now_playing_artist_name.text = track.artist
         now_playing_artist_name.text = track.album
 
-        now_playing_track_lenght.text = track.length.toFormatedSeconds()
+        now_playing_track_lenght.text = track.length.toFormattedSeconds()
         now_playing_progress_bar.max = track.length
 
         Picasso.with(context)
@@ -34,7 +34,7 @@ class NowPlayingFragment : BaseFragmentWithPresenter<NowPlayingContract.View, No
 
     override fun updatePosition(position: Int) {
         now_playing_progress_bar.progress = position
-        now_playing_progress_text.text = position.toFormatedSeconds()
+        now_playing_progress_text.text = position.toFormattedSeconds()
     }
 
     override fun updatePlayState(playState: PlayState) {

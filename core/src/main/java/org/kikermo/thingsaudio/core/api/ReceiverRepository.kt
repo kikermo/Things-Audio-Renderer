@@ -13,11 +13,11 @@ interface ReceiverRepository {
 
     fun getPlayPositionUpdates(): Observable<Int>
 
-    fun getVolumeUpdates(): Observable<Int>
-
-    fun setVolume(volume: Int): Completable
-
     fun sendPlayCommand(): Completable
+
+    fun sendPauseCommand(): Completable
+
+    fun sendStopCommand(): Completable
 
     fun sendSkipNextCommand(songsToSkip: Int = 1): Completable
 
