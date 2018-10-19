@@ -57,6 +57,7 @@ dependencies {
 
     implementation projectDependencies.ktorGson
     implementation projectDependencies.ktorNetty
+    implementation projectDependencies.ktorWebsockets
 
     compileOnly projectDependencies.androidThings
 }
