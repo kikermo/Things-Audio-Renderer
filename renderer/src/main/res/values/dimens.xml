@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="size_album_art">170dp</dimen>
+    <dimen name="size_progress_thickness">10dp</dimen>
+</resources>
+

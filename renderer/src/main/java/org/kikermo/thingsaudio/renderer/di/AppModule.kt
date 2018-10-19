@@ -2,6 +2,8 @@ package org.kikermo.thingsaudio.renderer.di
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
@@ -105,4 +107,9 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
     @Provides
     @Singleton
     fun providesRepeatModeBehaviourSubject(): BehaviorSubject<RepeatMode> = BehaviorSubject.createDefault(RepeatMode.DISABLED)
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder().create()
+
 }

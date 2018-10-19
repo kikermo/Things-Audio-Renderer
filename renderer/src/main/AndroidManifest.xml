@@ -1,7 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.kikermo.renderer">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.kikermo.thingsaudioreceiver">
 
-    <application android:label="@string/app_name">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="org.kikermo.thingsaudio.renderer.ThingsReceiverApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <uses-library android:name="com.google.android.things" />
+
+        <activity android:name="org.kikermo.thingsaudio.renderer.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Launch activity automatically on boot -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.IOT_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="org.kikermo.thingsaudio.renderer.service.ControlService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="org.kikermo.thingsaudio.renderer.service.PlayerService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
+
 </manifest>
