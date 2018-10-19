@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <uses-library android:name="com.google.android.things" />
+        <!--<uses-library android:name="com.google.android.things" />-->
 
         <activity android:name="org.kikermo.thingsaudio.renderer.MainActivity">
             <intent-filter>
@@ -36,6 +36,10 @@
             android:exported="false" />
         <service
             android:name="org.kikermo.thingsaudio.renderer.service.PlayerService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="org.kikermo.thingsaudio.renderer.service.DiscoveryService"
             android:enabled="true"
             android:exported="false" />
     </application>

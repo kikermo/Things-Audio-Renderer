@@ -38,7 +38,6 @@ class ControlService : BaseService() {
     @Inject lateinit var gson: Gson
 
     override fun onCreate() {
-        AndroidInjection.inject(this)
         super.onCreate()
         startRestServer()
     }
