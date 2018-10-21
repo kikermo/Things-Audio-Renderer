@@ -21,6 +21,8 @@ ext.projectDependencies = [
         gson                   : "com.google.code.gson:gson:$versions.gson",
         picasso                : "com.squareup.picasso:picasso:$versions.picasso",
 
+        rxdnssd                : "com.github.andriydruk:rx2dnssd:$versions.rxdnssd",
+
         ktor                   : "io.ktor:ktor:$versions.ktor",
         ktorNetty              : "io.ktor:ktor-server-netty:$versions.ktor",
         ktorGson               : "io.ktor:ktor-gson:$versions.ktor",

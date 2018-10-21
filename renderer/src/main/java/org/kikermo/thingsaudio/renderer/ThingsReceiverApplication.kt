@@ -10,6 +10,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import org.kikermo.thingsaudio.renderer.di.AppModule
 import org.kikermo.thingsaudio.renderer.di.DaggerAppComponent
 import org.kikermo.thingsaudio.renderer.service.ControlService
+import org.kikermo.thingsaudio.renderer.service.DiscoveryService
 import org.kikermo.thingsaudio.renderer.service.PlayerService
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,7 +42,8 @@ class ThingsReceiverApplication : Application(), HasSupportFragmentInjector, Has
 
     private fun startServices() {
         startService(Intent(this, PlayerService::class.java))
-        startService( Intent(this, ControlService::class.java))
+        startService(Intent(this, ControlService::class.java))
+        startService(Intent(this, DiscoveryService::class.java))
     }
 
     private fun initTimber() {
