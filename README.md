@@ -13,7 +13,7 @@ At this first stage, just a few API methods have been implemented for the basic 
 
 For adding songs to play, the API method is:
 ```
-/songs/add
+/tracks
 ```
 
 The request parameters are specified on a Json object and sent by ***POST*** request, ase the example below.
@@ -24,7 +24,7 @@ The request parameters are specified on a Json object and sent by ***POST*** req
       "album": "Abbey Road",
       "artist": "The Beatles",
       "length": 258,
-      "url": "http://192.168.1.34:9000/beatles/cometoguether.flac",
+      "url": "http://192.168.1.34:9000/beatles/cometogether.flac",
       "art": "http://192.168.1.34/beatles/abbey.jpg"
   },
   ...
