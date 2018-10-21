@@ -1,30 +1,57 @@
 package org.kikermo.thingsaudio.renderer.service
 
-import android.os.Build
-import com.github.druk.rx2dnssd.BonjourService
-import com.github.druk.rx2dnssd.Rx2DnssdEmbedded
+import android.content.Context
+import android.net.nsd.NsdManager
+import android.net.nsd.NsdServiceInfo
 import org.kikermo.thingsaudio.core.base.BaseService
-import org.kikermo.thingsaudio.core.rx.RxSchedulers
 import timber.log.Timber
-import javax.inject.Inject
 
-class DiscoveryService : BaseService() {
+class DiscoveryService : BaseService(), NsdManager.RegistrationListener {
 
-    @Inject lateinit var rxSchedulers: RxSchedulers
+    private val nsdManager: NsdManager by lazy { (getSystemService(Context.NSD_SERVICE) as NsdManager) }
+
     override fun onCreate() {
         super.onCreate()
         startDiscoveryService()
     }
 
-    private fun startDiscoveryService() {
-        val rxdnssd = Rx2DnssdEmbedded(this)
-        val bs = BonjourService.Builder(0, 0, Build.DEVICE, "_thingsaudio._tcp", null)
-            .port(8080)
-            .build()
-
-        registerDisposable(rxdnssd.register(bs)
-            .subscribeOn(rxSchedulers.io())
-            .observeOn(rxSchedulers.main())
-            .subscribe({Timber.i("Bonjour Service Successfully registered")}, Timber::e))
+    override fun onDestroy() {
+        super.onDestroy()
+        stopDiscoveryServive()
     }
+
+    private fun startDiscoveryService() {
+        registerService(8080)
+    }
+
+    fun registerService(port: Int) {
+        val serviceInfo = NsdServiceInfo().apply {
+            serviceName = "Things Audio Renderer"
+            serviceType = "_thingsaudio._tcp"
+            setPort(port)
+        }
+
+        nsdManager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, this@DiscoveryService)
+    }
+
+    fun stopDiscoveryServive() {
+        nsdManager.unregisterService(this)
+    }
+
+    override fun onUnregistrationFailed(serviceInfo: NsdServiceInfo?, errorCode: Int) {
+        Timber.d("Unregistration failed")
+    }
+
+    override fun onServiceUnregistered(serviceInfo: NsdServiceInfo?) {
+        Timber.d("Service unregistered")
+    }
+
+    override fun onRegistrationFailed(serviceInfo: NsdServiceInfo?, errorCode: Int) {
+        Timber.d("Registration failed")
+    }
+
+    override fun onServiceRegistered(serviceInfo: NsdServiceInfo?) {
+        Timber.d("Registration succeeded")
+    }
+
 }

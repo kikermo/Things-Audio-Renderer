@@ -59,7 +59,5 @@ dependencies {
     implementation projectDependencies.ktorNetty
     implementation projectDependencies.ktorWebsockets
 
-    implementation projectDependencies.rxdnssd
-
     compileOnly projectDependencies.androidThings
 }
