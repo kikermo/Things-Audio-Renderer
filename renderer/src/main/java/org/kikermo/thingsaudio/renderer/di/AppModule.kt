@@ -92,7 +92,7 @@ class AppModule(val thingsReceiverApplication: ThingsReceiverApplication) {
 
     @Provides
     @Singleton
-    fun provideTrackListBehaviourSubject(): BehaviorSubject<List<Track>> = BehaviorSubject.createDefault(listOf())
+    fun provideTrackListBehaviourSubject(): BehaviorSubject<List<Track>> = BehaviorSubject.createDefault(emptyList())
 
     @Provides
     @Singleton

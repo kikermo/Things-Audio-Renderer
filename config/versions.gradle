@@ -21,6 +21,7 @@ ext.versions = [
 
         dagger           : '2.17',
         rxdnssd          : '0.9.10',
+        retrofit         : '2.4.0',
 
         // Basic Config
         compileSdk       : 27,

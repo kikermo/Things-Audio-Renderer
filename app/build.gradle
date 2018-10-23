@@ -42,6 +42,10 @@ dependencies {
     implementation projectDependencies.rxandroid
 
     implementation projectDependencies.gson
+    implementation projectDependencies.retrofit
+    implementation projectDependencies.retrofitGson
+    implementation projectDependencies.retrofitRxJava
+    implementation projectDependencies.retrofitXML
 
     implementation projectDependencies.picasso
     implementation projectDependencies.timber

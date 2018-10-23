@@ -34,5 +34,10 @@ ext.projectDependencies = [
         daggerAndroid          : "com.google.dagger:dagger-android:$versions.dagger",
         daggerAndroidSupport   : "com.google.dagger:dagger-android-support:$versions.dagger",
 
+        retrofit               : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        retrofitRxJava         : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        retrofitGson           : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        retrofitXML            : "com.squareup.retrofit2:converter-simplexml:$versions.retrofit",
+
         core                   : project(":core")
 ]
