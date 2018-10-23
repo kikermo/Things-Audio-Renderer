@@ -104,6 +104,7 @@ class PlayerService : BaseService(), MediaPlayer.OnCompletionListener {
         val track = trackList.getOrNull(trackPointer)
 
         track?.run {
+            Timber.d("About to play $title")
             trackSubject.onNext(this)
             try {
                 mediaPlayer.reset()

@@ -1,7 +1,6 @@
 package org.kikermo.thingsaudio.renderer.service
 
 import com.google.gson.Gson
-import dagger.android.AndroidInjection
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CallLogging
@@ -25,6 +24,7 @@ import io.reactivex.Observable
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.base.BaseService
 import org.kikermo.thingsaudio.core.model.Track
+import org.kikermo.thingsaudio.core.rx.RxSchedulers
 import timber.log.Timber
 import java.time.Duration
 import java.util.concurrent.TimeUnit
@@ -36,6 +36,7 @@ class ControlService : BaseService() {
     @Inject lateinit var trackListObservable: Observable<List<Track>>
     @Inject lateinit var receiverRepository: ReceiverRepository
     @Inject lateinit var gson: Gson
+    @Inject lateinit var rxSchedulers: RxSchedulers
 
     override fun onCreate() {
         super.onCreate()
@@ -93,9 +94,9 @@ class ControlService : BaseService() {
                 call.respond(HttpStatusCode.OK)
             }
             post("/tracks") {
-                val trackList = call.receive<List<Track>>()
-                listReceived(trackList)
-                call.respond(HttpStatusCode.Accepted, trackList)
+                val trackArray = call.receive<Array<Track>>()
+                listReceived(trackArray.toList())
+                call.respond(HttpStatusCode.Accepted, trackArray)
             }
             post("/track") {
                 val track = call.receive<Track>()
@@ -107,25 +108,24 @@ class ControlService : BaseService() {
                 call.respond(HttpStatusCode.Accepted, trackList)
             }
             webSocket("/player/position") {
-                while (true) {
-                    registerDisposable(receiverRepository.getPlayPositionUpdates().subscribe {
+                registerDisposable(receiverRepository.getPlayPositionUpdates()
+                    .subscribeOn(rxSchedulers.io())
+                    .subscribe {
                         outgoing.offer(it.toJsonFrame())
                     })
-                }
             }
             webSocket("/player/track") {
-                while (true) {
-                    registerDisposable(receiverRepository.getTrackUpdates().subscribe {
+                registerDisposable(receiverRepository.getTrackUpdates()
+                    .subscribe {
                         outgoing.offer(it.toJsonFrame())
                     })
-                }
+
             }
             webSocket("/player/state") {
-                while (true) {
-                    registerDisposable(receiverRepository.getPlayStateUpdates().subscribe {
+                registerDisposable(receiverRepository.getPlayStateUpdates()
+                    .subscribe {
                         outgoing.offer(it.toJsonFrame())
                     })
-                }
             }
         }
     }
