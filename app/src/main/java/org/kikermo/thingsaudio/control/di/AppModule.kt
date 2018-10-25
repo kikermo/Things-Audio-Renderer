@@ -10,6 +10,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.kikermo.thingsaudio.control.ControlApplication
+import org.kikermo.thingsaudio.control.api.RendererRepoisitoryImpl
 import org.kikermo.thingsaudio.core.api.ReceiverRepository
 import org.kikermo.thingsaudio.core.model.PlayState
 import org.kikermo.thingsaudio.core.model.RepeatMode
@@ -19,7 +20,7 @@ import org.kikermo.thingsaudio.core.rx.RxSchedulersImpl
 import javax.inject.Singleton
 
 @Module
-class AppModule(val controlApplication: ControlApplication) {
+class AppModule(private val controlApplication: ControlApplication) {
     @Provides
     @Singleton
     fun provideApp() = controlApplication
@@ -38,17 +39,9 @@ class AppModule(val controlApplication: ControlApplication) {
 
     @Provides
     @Singleton
-    fun providesRepository(trackUpdatesObservable: Observable<Track>,
-                           playPositionsObservable: Observable<Int>,
-                           playStateObservable: Observable<PlayState>,
-                           repeatModeBehaviourSubject: BehaviorSubject<RepeatMode>,
-                           rxSchedulers: RxSchedulers
+    fun providesRepository(rxSchedulers: RxSchedulers
     ): ReceiverRepository {
-        return ReceiverRepositoryImp(trackUpdatesObservable = trackUpdatesObservable,
-            playPositionObservable = playPositionsObservable,
-            playStateObservable = playStateObservable,
-            playerControlActionsSubject = playerControlActionsSubject,
-            repeatModeBehaviourSubject = repeatModeBehaviourSubject,
+        return RendererRepoisitoryImpl(
             rxSchedulers = rxSchedulers)
     }
 

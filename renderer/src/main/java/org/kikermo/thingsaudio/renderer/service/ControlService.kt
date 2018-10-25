@@ -12,6 +12,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.routing.delete
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
@@ -102,6 +103,12 @@ class ControlService : BaseService() {
                 val track = call.receive<Track>()
                 listReceived(listOf(track))
                 call.respond(HttpStatusCode.Accepted, track)
+            }
+            delete("/track") {
+                val track = call.receive<Track>()
+              //TODO implement
+                //  listReceived(listOf(track))
+                call.respond(HttpStatusCode.NoContent, track)
             }
             get("/tracks") {
                 val trackList = trackListObservable.blockingLast()
